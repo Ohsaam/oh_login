@@ -12,13 +12,13 @@
     <body>
         <div class="login-wrapper">
             <h2>Login</h2>
-            <form method="post" action="/login" id="login-form">
+            <form method="post" action="/login" id="login-form" disabled>
                 <input type="text" id="userName" placeholder="Email">
                 <input type="password" id="userPassword" placeholder="Password">
                 <label for="remember-check">
                     <input type="checkbox" id="remember-check">아이디 저장하기
                 </label>
-                <input type="submit" value="Login">
+                <input type="submit" value="Login" id="login-botton">
                 <a class = "login_bottom" href="#" >비밀번호를 잊으셨나요?</a>
             </form>
         </div>
