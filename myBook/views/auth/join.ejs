@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>join</title>
+</head>
+<body>
+    <form name="frm">
+        <h1>회원가입</h1>
+        <div>email : <input type="email" id = "signupEmail"></div>
+        <div>password : <input type = "password" id = "signUpPassWord"/></div>
+        <button type = "submit" id = "signUpButton">회원가입 하기</button>
+        <button >로그인 하러 가기</button>
+    </form>
+
+</form>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBWeR8UdEmK9aCGxKgBjaG0jK3euA4IWsw",
+    authDomain: "mydatabase-e2522.firebaseapp.com",
+    databaseURL: "https://mydatabase-e2522-default-rtdb.firebaseio.com",
+    projectId: "mydatabase-e2522",
+    storageBucket: "mydatabase-e2522.appspot.com",
+    messagingSenderId: "573847235209",
+    appId: "1:573847235209:web:cc19bffc9000675f4e7458",
+    measurementId: "G-4BSD6WCWST"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+    document.getElementById('signUpButton').addEventListener('click', (event)=>{
+            event.preventDefault()
+            console.log(1)
+            const email = document.getElementById('signupEmail').value
+            const password = document.getElementById('signUpPassWord').value
+            console.log(email,password)
+
+            const auth = getAuth(); // auth라는 변수를 만들어서 getAuth 함수를 실행시킨다. 
+        
+            createUserWithEmailAndPassword(auth, email, password) // 이메일과 패스워드로 함수를 만들어주겠다. auth가 함수임.
+            .then((userCredential) => {
+                console.log(userCredential)
+
+                const user = userCredential.user;
+                // ...
+            })
+            .catch((error) => {
+                console.log('error')
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
+
+        })
+
+
+</script>
+
+</body>
+</html>
