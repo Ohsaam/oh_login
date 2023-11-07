@@ -18,9 +18,10 @@
       <div class="my-3">
         <button class="btn btn-success w-100" href="/">로그인</button>
       </div>
-      <div class="login-box">
-        <a href="#" class="social-button" id="google-connect"> <span>Connect with Google</span></a>
-      </div>
+
+      <form method ="GET" name="login-box" action="/auth/google">
+        <button type="submit"> Connect with Google</button>
+      </form>
       
       <div class="text-end mt-3"><a href="/join">회원가입</a></div>
     </form>
@@ -72,25 +73,26 @@ $(frm).on("submit", function(e){
 
 
 <script>
-  import { AuthLogic, loginGoogle } from "javascripts/authLogic.js";
+import {GoogleLogin} from "@react-oauth/google";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
-  const authLogic = new AuthLogic();
-
-// Google 소셜 로그인 버튼 클릭 이벤트 리스너 추가
-document.getElementById("#google-connect").addEventListener("click", () => {
-  // loginGoogle 함수를 호출하여 Google 소셜 로그인 실행
-  loginGoogle()
-    .then((userCredential) => {
-      // 로그인 성공 시 실행되는 코드
-      const user = userCredential.user;
-      console.log("Google 소셜 로그인 성공");
-      console.log("UID: " + user.uid);
-      console.log("이메일: " + user.email);
-    })
-    .catch((error) => {
-      // 로그인 실패 시 실행되는 코드
-      console.error("Google 소셜 로그인 실패:", error);
-    });
-});
+$(login-box).on('click',()=>{
+  const clientId = '${515485639470-b2bmvophgjaptqotdvej0jmk8ehg10rd.apps.googleusercontent.com}'
+    return (
+        <>
+            <GoogleOAuthProvider clientId={clientId}>
+                <GoogleLogin
+                    onSuccess={(res) => {
+                        console.log(jwtDecode(res.credential));
+                    }}
+                    onFailure={(err) => {
+                        console.log(err);
+                    }}
+                />
+            </GoogleOAuthProvider>
+        </>
+    ); 
+})
 
 </script>
