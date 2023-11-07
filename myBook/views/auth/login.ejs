@@ -70,3 +70,27 @@ $(frm).on("submit", function(e){
 
 </script>
 
+
+<script>
+  import { AuthLogic, loginGoogle } from "javascripts/authLogic.js";
+
+  const authLogic = new AuthLogic();
+
+// Google 소셜 로그인 버튼 클릭 이벤트 리스너 추가
+document.getElementById("#google-connect").addEventListener("click", () => {
+  // loginGoogle 함수를 호출하여 Google 소셜 로그인 실행
+  loginGoogle()
+    .then((userCredential) => {
+      // 로그인 성공 시 실행되는 코드
+      const user = userCredential.user;
+      console.log("Google 소셜 로그인 성공");
+      console.log("UID: " + user.uid);
+      console.log("이메일: " + user.email);
+    })
+    .catch((error) => {
+      // 로그인 실패 시 실행되는 코드
+      console.error("Google 소셜 로그인 실패:", error);
+    });
+});
+
+</script>
