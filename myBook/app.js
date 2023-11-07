@@ -1,3 +1,5 @@
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

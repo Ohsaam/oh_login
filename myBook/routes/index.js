@@ -14,4 +14,6 @@ router.get('/login', function(req, res, next) {
 // pageName은 템플릿에서 사용할 수 있는 변수이며, 
 // 템플릿에서 페이지 이름 또는 템플릿 이름을 동적으로 결정할 때 사용될 수 있다.
 
+
+
 module.exports = router;
