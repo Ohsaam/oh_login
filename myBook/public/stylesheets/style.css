@@ -5,6 +5,7 @@ body {
 
 a {
   color: #00B7FF;
+  text-decoration:none
 }
 
 .login-box {
@@ -77,3 +78,4 @@ a {
     -o-transition: all .3s ease;
     transition: all .3s ease;
 }
+

@@ -4,7 +4,7 @@ var router = express.Router();
 
 // '/' 경로에 대한 GET 요청을 처리하는 라우터가 정의
 router.get('/', function(req, res, next) {
-  res.render('index', { title: '도서관리시스템', pageName : "header.ejs"});
+  res.render('index', { title: '도서관리시스템' , pageName:"home.ejs"});
 });
 //  function(req, res, next) 이 함수는 / 경로에 대한 HTTP GET 요청이 들어올 때 실행된다.
 router.get('/login', function(req, res, next) {

@@ -1,29 +1,53 @@
 <nav class="navbar navbar-expand-lg bg-success navbar-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">한빛미디어</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">한빛미디어</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item" id="notice">
+          <a class="nav-link active" aria-current="page" href="#">게시판</a>
+        </li>
+        <li class="nav-item" id="cart" style="display: none">
+          <a class="nav-link active" aria-current="page" href="/users/cart"
+            >장바구니</a
+          >
+        </li>
+      </ul>
+      <div class="d-flex">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <li class="nav-item" id="login">
+            <a class="nav-link active" aria-current="page" href="/login"
+              >로그인</a
+            >
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">게시판</a>
+          <li class="nav-item" id="mypage">
+            <a class="nav-link active" aria-current="page" href="/users/mypage"
+              >MyPage</a
+            >
+          </li>
+          <li class="nav-item" id="logout" style="display: none">
+            <a class="nav-link active" aria-current="page" href="/"
+              >로그아웃</a
+            >
           </li>
         </ul>
-        <div class="d-flex">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item" id="login">
-              <a class="nav-link active" aria-current="page" href="/login">로그인</a>
-            </li>          
-          </ul>
-        </div>
       </div>
     </div>
-  </nav>
-
+  </div>
+</nav>
 
   <!-- =======================HTML 캐러셀 추가 부분 ======================= -->
 
@@ -43,6 +67,17 @@
   </div>
 
   <script>
+    console.log(`header - ${localStorage.getItem('email')}`);
+    if(localStorage.getItem('email')) //localStorage에 getItem('item')을 갖고 있다면, == 사용자가 이메일을 입력 했을 때, 
+    {
+      $('#login, #logout, #mypage, #cart').toggle(); // 토글 버튼을 활성화 시킨다.
+    }
+    // 나는 페이지를 기존(배운) 페이지를 분리 한 후 --> 거기에 로그인이 성공하면 main 페이지로 돌아온다.
+
+    $('#logout').on('click', ()=>{
+      localStorage.clear();
+      location.href = '/';
+    })
      applySlider = () =>{
      $('#slider-div').slick({
         slide : 'div',  //슬라이드 되어야 할 태그 ex) div, li

@@ -16,7 +16,7 @@
         />
       </div>
       <div class="my-3">
-        <button class="btn btn-success w-100">로그인</button>
+        <button class="btn btn-success w-100" href="/">로그인</button>
       </div>
       <div class="login-box">
         <a href="#" class="social-button" id="google-connect"> <span>Connect with Google</span></a>
@@ -58,6 +58,7 @@ $(frm).on("submit", function(e){
   console.log(`email ====> ${user.email}`);
   localStorage.setItem("uid",`${user.uid}`)
   localStorage.setItem("email",`${user.email}`)
+  window.location.href = "/";
   // ...
 })
 .catch((error) => {
