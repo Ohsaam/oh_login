@@ -76,6 +76,8 @@
       const storedUID = localStorage.getItem("uid");
       const storedEmail = localStorage.getItem("email");
       // Firebase Authentication은 각 사용자에게 고유한 uid를 할당
+      window.location.href = "/";
+      console.log("읽혀?")
 
       if (user.uid && user.email){
         alert("로그인성공!!")
