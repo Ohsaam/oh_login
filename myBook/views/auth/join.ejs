@@ -41,15 +41,16 @@
             console.log(1)
             const email = document.getElementById('signupEmail').value
             const password = document.getElementById('signUpPassWord').value
-            console.log(email,password)
 
             const auth = getAuth(); // auth라는 변수를 만들어서 getAuth 함수를 실행시킨다. 
         
             createUserWithEmailAndPassword(auth, email, password) // 이메일과 패스워드로 함수를 만들어주겠다. auth가 함수임.
             .then((userCredential) => {
-                console.log(userCredential)
+                console.log(1)
 
                 const user = userCredential.user;
+                localStorage.setItem("uid",`${user.uid}`)
+                localStorage.setItem("email",`${user.email}`)
                 // ...
             })
             .catch((error) => {
