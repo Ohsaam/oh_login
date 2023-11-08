@@ -17,6 +17,9 @@ router.get('/join', function(req, res, next) {
 // 이 라우터는 요청이 들어오면 'index'라는 뷰 템플릿을 렌더링하고, 객체를 전달하여 템플릿에 데이터를 전달
 // pageName은 템플릿에서 사용할 수 있는 변수이며, 
 // 템플릿에서 페이지 이름 또는 템플릿 이름을 동적으로 결정할 때 사용될 수 있다.
+router.get('/bookList', function(req, res, next) {
+  res.render('index', { title: '로그인' , pageName: "book/bookList.ejs"});
+});
 
 
 
