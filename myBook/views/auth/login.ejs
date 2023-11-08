@@ -9,10 +9,10 @@
   <div class="row my-5 justify-content-center">
     <div class="col-8 col-md-6 col-lg-4">
       <h3 class="text-center mb-5">로그인</h3>
-      <form name="frm" method="post">
+      <form name="frm" method="post" action="/login">
         <div class="input-group my-2">
           <div class="input-group-text">이 메 일</div>
-          <input class="form-control" name="email" value="tomato@hot.com" />
+          <input class="form-control" name="email" />
         </div>
         <div class="input-group">
           <div class="input-group-text">비밀번호</div>
@@ -20,11 +20,10 @@
             class="form-control"
             name="password"
             type="password"
-            value="12345678"
           />
         </div>
         <div class="my-3">
-          <button class="btn btn-success w-100" href="/">로그인</button>
+          <button class="btn btn-success w-100" type="submit">로그인</button>
         </div>
   
         <ul>
@@ -34,11 +33,9 @@
            </a>
           </li>
          </ul>
-         <!-- <button id = "google-btn">구글로그인</button> -->
-
         
         <div class="text-end mt-3"><a href="/join">회원가입</a></div>
-      
+      </form>
     </div>
   </div>
 <!--tomato@hot.com   -->
@@ -63,23 +60,35 @@
     //기존 사용자가 자신의 이메일 주소와 비밀번호를 사용해 로그인할 수 있는 양식을 만듭니다. 
     //사용자가 양식을 작성하면 signInWithEmailAndPassword 메서드를 호출합니다.
     
-      signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log(userCredential);//[object, Object]
+      signInWithEmailAndPassword(auth, email, password) // 함수다. 이벤트처리x
+    .then((res) => { // userCredential 객체에는 로그인에 성공한 사용자에 대한 정보가 포함되어 있다.
+      console.log(res);//[object, Object]
+
       // Signed in 
-      const user = userCredential.user;
+      // 여기 res엔 실제 사용자에 대한 정보가 들어가있다.
+      const user = res.user;
       //JSON.stringify(user)
       console.log(`user ===> ${JSON.stringify(user)}`);//[object, Object]  - JSON.parse():JSON-Array
       console.log(`uid ====> ${user.uid}`);
       console.log(`email ====> ${user.email}`);
       localStorage.setItem("uid",`${user.uid}`)
       localStorage.setItem("email",`${user.email}`)
-      window.location.href = "/";
-      // ...
+      const storedUID = localStorage.getItem("uid");
+      const storedEmail = localStorage.getItem("email");
+      // Firebase Authentication은 각 사용자에게 고유한 uid를 할당
+
+      if (user.uid && user.email){
+        alert("로그인성공!!")
+        window.location.href = "/";
+      }else{
+        alert("회원 정보를 확인하세요.");
+      }
+
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      alert(`로그인 실패: ${errorMessage}`);
     });
     
     })
@@ -87,7 +96,7 @@
     </script>
 
 
-<!-- <script>
+<script>
   //처음 실행하는 함수
   function init() {
     gapi.load('auth2', function() {
@@ -127,7 +136,7 @@
   }
 
   </script>
-  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>   -->
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>  
 
   <!-- <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
@@ -178,7 +187,7 @@
         });
 
     })
-  </script> -->
+  </script>
 
    
 

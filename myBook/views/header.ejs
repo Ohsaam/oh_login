@@ -72,6 +72,10 @@
     {
       $('#login, #logout, #mypage, #cart').toggle(); // 토글 버튼을 활성화 시킨다.
     }
+    $('#logout').on('click', ()=>{
+      localStorage.clear();
+      location.href = '/';
+    })
     // 나는 페이지를 기존(배운) 페이지를 분리 한 후 --> 거기에 로그인이 성공하면 main 페이지로 돌아온다.
 
 
@@ -107,7 +111,7 @@ applySlider()
 </script>
 
 <!-- 로그아웃 구현하기 단, API 이용해서 -->
-<script type = "module">
+<!-- <script type = "module">
   import { app } from "/javascripts/firebase.js"
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
@@ -119,9 +123,10 @@ applySlider()
     }).catch((error) => {
       // An error happened.
     });
+    console.log("찍혀?")
       localStorage.clear();
       location.href = '/';
     })
 
-</script>
+</script> -->
 
