@@ -30,9 +30,15 @@
   <body>
     <div class="container">
       
-       <%-include("header.ejs")%>
-       <%-include(pageName)%>
+       <%-include("header.ejs")%><%-include(pageName)%>
       <%-include("footer.ejs")%>
+
+      <!-- pageName
+  서버에서 라우팅이 진행되고 페이지가 렌더링될 때, pageName에 해당하는 값이 설정되어 클라이언트로 전달되면,
+  해당 페이지에 대한 콘텐츠를 동적으로 로드하는 데 사용될 수 있어.
+  페이지마다 다른 내용을 보여주기 위해 사용되는 변수
+
+       -->
     </div>
   </body>
 </html>
