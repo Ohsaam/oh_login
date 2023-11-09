@@ -110,23 +110,3 @@
 applySlider()
 </script>
 
-<!-- 로그아웃 구현하기 단, API 이용해서 -->
-<!-- <script type = "module">
-  import { app } from "/javascripts/firebase.js"
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-
-  const auth = getAuth(app); // 앱을 넣어서 정보를 넘겨준다.
-  $('#logout').on('click', ()=>{
-    auth.signOut();
-    signOut(auth).then(() => {
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-    });
-    console.log("찍혀?")
-      localStorage.clear();
-      location.href = '/';
-    })
-
-</script> -->
-

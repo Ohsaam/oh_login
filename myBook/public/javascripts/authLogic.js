@@ -1,5 +1,8 @@
-import axios from "axios";
-import { getAuth, GithubAuthProvider, GoogleAuthProvider} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"
+import { getAuth,
+  signInWithPopup ,
+  GithubAuthProvider,
+   GoogleAuthProvider, 
+   } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"
 
 
 class AuthLogic{
@@ -22,10 +25,9 @@ class AuthLogic{
   getGitProvider = () =>{
     return this.googleProvider;
   }
-
-
-
 }
+// defalut가 있을 떈 import {} << 괄호를 붙이면 안 된다.
+export default AuthLogic
 
 export const loginKakao = (params) => {
 
@@ -45,22 +47,48 @@ export const loginKakao = (params) => {
   })
 }
 
-export const loginGoogle = (params) => {
-  signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    console.log(userCredential);//[object, Object]
-    // Signed in 
-    const user = userCredential.user;
-    //JSON.stringify(user)
-    console.log(`user ===> ${JSON.stringify(user)}`);//[object, Object]  - JSON.parse():JSON-Array
-    console.log(`uid ====> ${user.uid}`);
-    console.log(`email ====> ${user.email}`);
-    localStorage.setItem("uid",`${user.uid}`)
-    localStorage.setItem("email",`${user.email}`)
-    // ...
+export const logOut = (auth) => {
+  return new Promise((resolve,reject) => {
+    auth.signOut().catch(e => reject(alert(e+"로그아웃")))
+    localStorage.removeItem('uid')
+    localStorage.removeItem('displayName')
+    localStorage.removeItem('email');
+    resolve();
   })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
 }
+
+
+
+
+// 파라미터의 값이 바뀌었다. 사용자의 정보, 구글 제공함수
+export const loginGoogle = (auth, googleProvider) => {
+  console.log('loginGoogle호출 성공');
+  console.log(googleProvider);
+  return new Promise((resolve, reject) => {
+    signInWithPopup(auth, googleProvider)
+    .then((result) => {
+      console.log(result);//object Object - 안보임 - uid, displayName-realname, email
+      console.log(JSON.stringify(result));
+      const user = result.user;
+      localStorage.setItem("uid", user.uid);
+      localStorage.setItem("displayName", user['displayName']);
+      localStorage.setItem('email', user.email);
+      resolve(user)
+    }).catch((error) => reject(error));
+  });
+};
+
+
+export const loginEmail = (params) => {
+  return new Promise((resolve, reject) => {
+    signInWithEmailAndPassword(auth,googleProvider)
+    .then((result) => {})
+    .catch((error)=> {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    })
+  })
+}
+  
+
+
