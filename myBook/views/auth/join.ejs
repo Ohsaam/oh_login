@@ -1,74 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-
-    <title>join</title>
-</head>
-<body>
-    <form name="frm">
-        <h1>회원가입</h1>
-        <div>email : <input type="email" id = "signupEmail"></div>
-        <div>password : <input type = "password" id = "signUpPassWord"/></div>
-        <button type = "submit" id = "signUpButton">회원가입 하기</button>
-    </form>
-
-</form>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDSE3syxroAfuSFMPRlMzdGZ45uApN-W9k",
-    authDomain: "mybook-9b191.firebaseapp.com",
-    projectId: "mybook-9b191",
-    storageBucket: "mybook-9b191.appspot.com",
-    messagingSenderId: "442421738767",
-    appId: "1:442421738767:web:91a6ba77aafba53aa7d27a",
-    measurementId: "G-JCPGBGBBFJ"
-  };
+<div class="row my-5 justify-content-center">
+    <div class="col-8 col-md-6 col-lg-4">
+      <h3 class="text-center mb-5">회원가입</h3>
+      <form name="frm" method="post">
+        <div class="input-group my-2">
+          <div class="input-group-text">이 메 일</div>
+          <input class="form-control" name="email" />
+        </div>
+        <div class="input-group">
+          <div class="input-group-text">비밀번호</div>
+          <input
+            class="form-control"
+            name="password"
+            type="password"
+          />
+        </div>
+        <div class="my-3">
+          <button class="btn btn-success w-100">회원가입</button>
+        </div>
+        <div class="text-end mt-3"><a href="/login">로그인</a></div>
+      </form>
+    </div>
+  </div>
+  <script type="module">
+    import { app } from '/javascripts/firebase.js';
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+    } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+    const auth = getAuth(app); //apikey, 너정보
+    $(frm).on('submit', function (e) {
+      console.log('회원가입버튼 클릭');
+      e.preventDefault();
+      let email = $(frm.email).val();
+      //사용자가 화면에 입력한 비번 담기
+      let password = $(frm.password).val();
+      console.log(`${email} ${password}`);
   
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
-
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-
-    document.getElementById('signUpButton').addEventListener('click', (event)=>{
-            event.preventDefault()
-            console.log(1)
-            const email = document.getElementById('signupEmail').value
-            const password = document.getElementById('signUpPassWord').value
-
-            const auth = getAuth(); // auth라는 변수를 만들어서 getAuth 함수를 실행시킨다. 
-        
-            createUserWithEmailAndPassword(auth, email, password) // 이메일과 패스워드로 함수를 만들어주겠다. auth가 함수임.
-            .then((userCredential) => {
-                console.log(1)
-
-                const user = userCredential.user;
-                localStorage.setItem("uid",`${user.uid}`)
-                localStorage.setItem("email",`${user.email}`)
-                alert("회원가입 성공했습니다.")
-                window.location.href = "/login";
-                console.log("uid", `${user.uid}`)
-                console.log("email", `${user.email}`)
-                // ...
-            })
-            .catch((error) => {
-                console.log('error')
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-            });
-
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((response) => {
+          //회원가입에 성공하면
+          console.log(response);
+          location.href = '/login';
         })
-
-
-</script>
-
-</body>
-</html>
+        .catch((error) => alert(error.message));
+    }); //// end of createUserWithEmailAndPassword
+  </script>
+  

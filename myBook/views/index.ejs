@@ -30,7 +30,15 @@
   <body>
     <div class="container">
       
-       <%-include("header.ejs")%><%-include(pageName)%>
+       <%-include("header.ejs")%>
+
+       <div id="loading" class="row my-5">
+        <div class="col my-5">
+          <img src="/images/loading.gif" alt="로딩이미지" />
+        </div>
+      </div>
+
+       <%-include(pageName)%>
       <%-include("footer.ejs")%>
 
       <!-- pageName
@@ -41,12 +49,13 @@
        -->
     </div>
   </body>
+  <script>
+    //DOM 다 그려진거야?
+    $(document).on('ready', () => {
+      setTimeout(() => {
+        $('#loading').hide();
+      }, 1000);
+    });
+  </script>
 </html>
 
-
-<script>
-
-
-</script>
-<!-- 스크립트를 여기서 처리해야함. 
--->
