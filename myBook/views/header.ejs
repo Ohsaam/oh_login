@@ -68,7 +68,7 @@
 
   <script>
     console.log(`header - ${localStorage.getItem('email')}`);
-    if(localStorage.getItem('email')) //localStorage에 getItem('item')을 갖고 있다면, == 사용자가 이메일을 입력 했을 때, 
+    if(localStorage.getItem('email') || localStorage.getItem('nickname')) //localStorage에 getItem('item')을 갖고 있다면, == 사용자가 이메일을 입력 했을 때, 
     {
       $('#login, #logout, #mypage, #cart').toggle(); // 토글 버튼을 활성화 시킨다.
     }
