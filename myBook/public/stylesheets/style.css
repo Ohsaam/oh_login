@@ -13,6 +13,16 @@ a {
   letter-spacing: 1px;
   position: relative;
 }
+.login-box1 {
+  background: rgb(211, 225, 88);
+  text-align: center;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+ul {
+  list-style: none;
+}
 
 #google-connect {
   background: rgb(255, 255, 255) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
@@ -77,3 +87,6 @@ a {
     -o-transition: all .3s ease;
     transition: all .3s ease;
 }
+
+
+

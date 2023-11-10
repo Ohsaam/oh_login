@@ -34,9 +34,11 @@
 
          <ul> 
             <li onclick="kakaoLogin();">
-              <a href="javascript:void(0)">
-                  <span>Connect with KaKao</span>
-              </a>
+              <div class="login-box1"> 
+                <a href="javascript:void(0)" class="social-button" id = "kkCustomLogin">
+                    <span>Connect with KaKao</span>
+                </a>
+            </div>
           </li>
          </ul>
 
@@ -138,7 +140,7 @@ function kakaoLogin() {
           url: '/v2/user/me',
           success: function (response) {
         	  console.log(response)
-            alert(JSON.stringify(response))
+            console.log(JSON.stringify(response))
             let nickname = response.kakao_account.profile.nickname;
             let email = response.kakao_account.email
             console.log(nickname)
