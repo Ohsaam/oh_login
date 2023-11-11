@@ -150,6 +150,33 @@ const bookList = () =>{
 
                 $('#page').text(`${page}/${last}`)
 
+                //페이지 처리까지 완료.
+
+                //이제 수정 해야 될 부분은 버튼을 누르면 마지막 last에서 페이지가 넘어감
+                //버튼 활성화 및 비활성화 기능을 추가해야함
+                //조건 분기를 하자  page == 1 -> 이전페이지 못가!(버튼활성화)
+                //page == last일 경우 --> 다음 페이지 못가! (버튼활성화)
+                //attr()은 jQuery에서 HTML 속성(attribute)을 조작하기 위한 메서드 중 하나
+                //최근엔 prop()으로도 많이 쓰니 이것으로 쓰자.
+                if(page ==1)
+                {
+                  $('#prev').prop("disabled", true)
+                }
+                else
+                {
+                  $('#prev').prop("disabled", false)
+                }
+
+                if(page == last)
+                {
+                  $('#next').prop("disabled", true)
+                }
+                else{
+                  $("#next").attr("disabled", false)
+                }
+
+                
+
                 
 
 
