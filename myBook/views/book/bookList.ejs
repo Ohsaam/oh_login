@@ -13,15 +13,41 @@
   <div class="row" id="list_book"></div>
   <!-- 카카오도서 Restful API 공간 -->
   
+
+  <!-- 이미지가 없는 도서 = helper ||  가격 = 정규표현식 처리하기 
+  -->
   <script>
+    // 이 자리에 들어가야되는 이유는 밑에 내려가면 읽지 못한다.
+    Handlebars.registerHelper("format", function(price){
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
+  })  //format은 헬퍼함수이름 파라미터로 들어가는 값이 price ||  정규표현식 처리
+
+  Handlebars.registerHelper("image", function(thum){
     
+    if(thum) return thum;
+    else return "https://via.placeholder.com/120x174";
+  })
+
+
+
+  Handlebars.registerHelper("color", function(sale_price){
+    // 가격에 콤마 추가
+    let formattedPrice = sale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    // 콤마가 추가된 가격을 빨간색으로 표시
+    let sale = new Handlebars.SafeString("<font color='red'>" + formattedPrice + '원' + "</font>");
+    return sale;
+})
+// {{ image thumbnail }}를 템플릿에 포함하면, "image" Helper 함수가 호출된다.
+// "image" Helper 함수는 호출 시에 매개변수로 전달된 thumbnail 값을 받는다.
+// 이미지 URL이 존재하면 return thum;을 통해 해당 이미지 URL을 반환한다.
   </script>
 
 <!-- 핸들바스 템플릿 들어갈 부분 -->
 <script id="temp_book" type="text/x-handlebars-template">
   {{#each documents}}
   <div class="card" style="width: 18rem;">
-    <img src="{{ thumbnail}}" index="{{@index}}"alt="도서이미지">
+    <img src="{{ image thumbnail}}" index="{{@index}}"alt="도서이미지">
     <!--헬퍼 함수 참고 https://handlebarsjs.com/guide/expressions.html#helpers 
     image가 헬퍼함수 이름이고 thumbnail이 헬퍼함수 매개변수이다.
     -->
@@ -33,9 +59,9 @@
       <!-- 콘텐츠 들어가는 부분 -->
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{ price }}</li>
+      <li class="list-group-item">{{ format price }}</li>
       
-      <li class="list-group-item">{{ sale_price }}</li>
+      <li class="list-group-item" id="saleprice">{{ color sale_price }}</li>
       <li class="list-group-item">{{ status }}</li>
     </ul>
     <!-- <div class="card-body">
@@ -49,7 +75,6 @@
 <!--  이 부분에 query, page에 대한 정보를 전역변수로 줘야함 그래야 
   공동으로 관리가 가능
   -->
-
    <!-- 이 부분 footer -->
   <div class="text-center mt-2">
     <button class="btn btn-primary btn-sm px-5" id="prev">이전</button>
@@ -66,8 +91,9 @@ let page = 1;
 // query랑 page를 생성하는 이유는 
 // ajax로 데이터 날리면 -> 사용자가 입력한 값을 같이 넘겨줘야 되서 
 
+// 
 
-    const bookList = () =>{
+const bookList = () =>{
         $.ajax({
             type : "get",
             url : "https://dapi.kakao.com/v3/search/book?target=title",
@@ -106,9 +132,6 @@ $(frm).on('submit',(event)=>{
   page = 1;
   bookList();
 })
-
-
-
 
     bookList();
   </script>
