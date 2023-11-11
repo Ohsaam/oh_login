@@ -28,15 +28,22 @@
     else return "https://via.placeholder.com/120x174";
   })
 
+// -1원(절판된 책에 대한 함수 추가)
 
 
+//컬러에대한 헬퍼함수 추가
   Handlebars.registerHelper("color", function(sale_price){
     // 가격에 콤마 추가
-    let formattedPrice = sale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-    // 콤마가 추가된 가격을 빨간색으로 표시
-    let sale = new Handlebars.SafeString("<font color='red'>" + formattedPrice + '원' + "</font>");
-    return sale;
+    if (sale_price === -1) {
+        // -1일 경우 "절판" 표시
+        return new Handlebars.SafeString("<font color='green'>절판</font>");
+    } else {
+        // 가격에 콤마 추가
+        let formattedPrice = sale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        // 콤마가 추가된 가격을 빨간색으로 표시
+        return new Handlebars.SafeString("<font color='red'>" + formattedPrice + '원' + "</font>");
+    }
 })
 // {{ image thumbnail }}를 템플릿에 포함하면, "image" Helper 함수가 호출된다.
 // "image" Helper 함수는 호출 시에 매개변수로 전달된 thumbnail 값을 받는다.
