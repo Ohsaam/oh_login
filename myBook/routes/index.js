@@ -12,14 +12,41 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/join', function(req, res, next) {
-  res.render('index', { title: '조인' , pageName: "auth/join.ejs"});
+  res.render('index', { title: '회원가입' , pageName: "auth/join.ejs"});
 });
+
+router.get('/board/board', function(req, res, next) {
+  res.render('index', { title: '게시판' , pageName: "board/board.ejs"});
+});
+
+
 // 이 라우터는 요청이 들어오면 'index'라는 뷰 템플릿을 렌더링하고, 객체를 전달하여 템플릿에 데이터를 전달
 // pageName은 템플릿에서 사용할 수 있는 변수이며, 
 // 템플릿에서 페이지 이름 또는 템플릿 이름을 동적으로 결정할 때 사용될 수 있다.
 // router.get('/bookList', function(req, res, next) {
 //   res.render('index', { title: '리스트' , pageName: "book/bookList.ejs"});
 // });
+
+
+//========================================================================================
+router.get('/board/list', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  res.render('index', { title: '글목록',  pageName: "board/list.ejs" });
+});
+
+
+router.get('/board/write', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  res.render('index', { title: '글쓰기',  pageName: "board/write.ejs" });
+});
+
+router.get('/board/read/:id', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  let id = req.params.id;
+  res.render('index', { title: '상세보기',  pageName: "board/read.ejs", id:id });
+}); 
+
+router.get('/board/update/:id', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  let id = req.params.id;
+  res.render('index', { title: '수정하기',  pageName: "board/update.ejs", id:id });
+}); 
 
 
 

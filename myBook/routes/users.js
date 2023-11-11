@@ -7,10 +7,6 @@ router.get('/', function(req, res, next) {
 }); 
 // res.send('respond with a resource'): 이 부분은 클라이언트에게 응답을 보내는 역할
 
-router.get('/cart', function(req, res, next) {
-  res.render('index', { title: '장바구니', pageName : "users/cart.ejs"});
-
-});
 
 router.get('/mypage', function(req, res, next) {
   res.render('index', { title: '장바구니', pageName : "users/mypage.ejs"});

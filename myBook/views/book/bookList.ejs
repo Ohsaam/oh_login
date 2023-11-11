@@ -2,7 +2,7 @@
     <div class="col-6 col-md-4">
       <form name="frm">
         <div class="input-group">
-          <input type="text" name="query" class="form-control" value="자바" />
+          <input type="text" name="query" class="form-control" value="오라클" />
           <button class="btn btn-danger">검색</button>
         </div>
       </form>
@@ -54,6 +54,7 @@
 <script id="temp_book" type="text/x-handlebars-template">
   {{#each documents}}
   <div class="card" style="width: 18rem;">
+  <!-- 블록을 사용하여 배열을 순회할 때, 현재 반복되는 항목의 인덱스를 {{@index}}로 참조할 수 있다. -->
     <img src="{{ image thumbnail}}" index="{{@index}}"alt="도서이미지">
     <!--헬퍼 함수 참고 https://handlebarsjs.com/guide/expressions.html#helpers 
     image가 헬퍼함수 이름이고 thumbnail이 헬퍼함수 매개변수이다.
@@ -107,6 +108,15 @@ $('#next').on('click', ()=>{
   page++;
   bookList();
 })
+
+// 도서를 클릭 했을 때 상세보기 처리하자.
+
+
+$('#list_book').on ('click',  '.card img', ()=>{
+    //아래 this는 누구인가요? <img index=1>
+    let index = $(this).attr("index");
+    console.log(`사용자가 선택한 이미지 index값은 ${index}`);
+  })
 
 
 
@@ -174,15 +184,6 @@ const bookList = () =>{
                 else{
                   $("#next").attr("disabled", false)
                 }
-
-                
-
-                
-
-
-
-
-                
 
             },
             error: function(error)
