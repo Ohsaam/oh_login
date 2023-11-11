@@ -94,11 +94,21 @@
 //   공동으로 관리가 가능
 let query = $(frm.query).val(); //name="query"
 let page = 1;
-
 // query랑 page를 생성하는 이유는 
 // ajax로 데이터 날리면 -> 사용자가 입력한 값을 같이 넘겨줘야 되서 
 
-// 
+$('#prev').on('click', ()=>{
+  page--;
+  bookList();
+
+})
+
+$('#next').on('click', ()=>{
+  page++;
+  bookList();
+})
+
+
 
 const bookList = () =>{
         $.ajax({
@@ -118,6 +128,33 @@ const bookList = () =>{
                   const tb_list = template(data);
                 //  tb_list는  each /each 구간에 바인딩 될  data변수를 넣는다.
                   $('#list_book').html(tb_list);
+
+/***
+ * 페이지네이션을 진행하려면 총total_page를 알아야한다
+ * 어떤 기준으로 바뀌는가?를 설정해야한다.
+ * 우선 object meta 데이터부터 살펴보자.
+ * is_end  || pageable_count : 1000 ||  total_count : 1680
+ * 이 데이터를 끌어다가 써야 되는데 어떻게 할까?
+ * F12에 있는 개발자센터에서 우리가 보내는 data.meta.is_end 로 접근이 가능하다.
+ * 왜냐하면 오브젝트기 떄문에 리터럴로 접근이 가능하다.
+ *  size: 20 ==> 한 페이지에 보여줄 사이즈가 20개이기 떄문에
+ *  total/20으로 나눈게 마지막 페이지다.
+ */
+                let is_end = data.meta.is_end;
+                console.log(`마지막 페이지니? ==> ${is_end}`)
+                let total = data.meta.total_count;
+                console.log(`전체 페이지니? ==> ${total}`)
+
+                let last = Math.ceil(total/20)
+                console.log(`마지막 페이지니? ==> ${last}`)
+
+                $('#page').text(`${page}/${last}`)
+
+                
+
+
+
+
                 
 
             },
@@ -127,18 +164,14 @@ const bookList = () =>{
             }
         })
     }
-
-
 // 검색 시 form 태그가 활성화된다.
-
 // 1. html태그 jqeury로 접근하고->submit 이벤트 발생 시 start
-
 $(frm).on('submit',(event)=>{
   event.preventDefault(); // 캡쳐링 방지
   query = $(frm.query).val();
   page = 1;
   bookList();
 })
-
     bookList();
   </script>
+
