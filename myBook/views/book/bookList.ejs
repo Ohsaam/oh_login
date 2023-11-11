@@ -45,6 +45,11 @@
   </div>
   {{/each}}
 </script>
+
+<!--  이 부분에 query, page에 대한 정보를 전역변수로 줘야함 그래야 
+  공동으로 관리가 가능
+  -->
+
    <!-- 이 부분 footer -->
   <div class="text-center mt-2">
     <button class="btn btn-primary btn-sm px-5" id="prev">이전</button>
@@ -53,26 +58,33 @@
   </div>
 
   <script>
+//  이 부분에 query, page에 대한 정보를 전역변수로 줘야함 그래야 
+//   공동으로 관리가 가능
+let query = $(frm.query).val(); //name="query"
+let page = 1;
+
+// query랑 page를 생성하는 이유는 
+// ajax로 데이터 날리면 -> 사용자가 입력한 값을 같이 넘겨줘야 되서 
+
+
     const bookList = () =>{
         $.ajax({
             type : "get",
             url : "https://dapi.kakao.com/v3/search/book?target=title",
             headers : { Authorization: 'KakaoAK 419dfbdca77c5c8f97ffe62cc8be0107'},
             // data : {query : query, page : page, size : 10},
-            data: { query: 10, page: 1, size: 20 },
+            data: { query: query, page: page, size: 20 },
             dataType : 'json',
             success: function(data){
                 console.log(data);
                 //핸들바스 컴파일 -> ajax데이터를 핸들바스 변수에 넣어준다.
-                //  const tmp = $('#temp_book').html()
-                const temp = Handlebars.compile($('#temp_book').html());
+                  const tmp = $('#temp_book').html()
                 //핸들바스 템플릿을 가져온다.
-                // const template = Handlebars.compile(tmp);
+                 const template = Handlebars.compile(tmp);
                 // 반복문을 돌릴 구간을 컴파일 하기 위해서 핸들바스 파라미터로 넣는다.
-                //  const tb_list = template(data);
+                  const tb_list = template(data);
                 //  tb_list는  each /each 구간에 바인딩 될  data변수를 넣는다.
-                //  $('#list_book').html(tb_list);
-                 $('#list_book').html(temp(data));
+                  $('#list_book').html(tb_list);
                 
 
             },
@@ -82,6 +94,21 @@
             }
         })
     }
+
+
+// 검색 시 form 태그가 활성화된다.
+
+// 1. html태그 jqeury로 접근하고->submit 이벤트 발생 시 start
+
+$(frm).on('submit',(event)=>{
+  event.preventDefault(); // 캡쳐링 방지
+  query = $(frm.query).val();
+  page = 1;
+  bookList();
+})
+
+
+
 
     bookList();
   </script>
