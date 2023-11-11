@@ -9,7 +9,43 @@
     </div>
   </div>
   <hr />
+  <!-- 카카오도서 Restful API 공간 -->
   <div class="row" id="list_book"></div>
+  <!-- 카카오도서 Restful API 공간 -->
+  
+  <script>
+    
+  </script>
+
+<!-- 핸들바스 템플릿 들어갈 부분 -->
+<script id="temp_book" type="text/x-handlebars-template">
+  {{#each documents}}
+  <div class="card" style="width: 18rem;">
+    <img src="{{ thumbnail}}" index="{{@index}}"alt="도서이미지">
+    <!--헬퍼 함수 참고 https://handlebarsjs.com/guide/expressions.html#helpers 
+    image가 헬퍼함수 이름이고 thumbnail이 헬퍼함수 매개변수이다.
+    -->
+    <div class="card-body">
+      <!-- title이 들어가는 부분 -->
+      <h5 class="card-title">{{ title }}</h5>
+      
+      <p class="card-text">{{ contents }} </p>
+      <!-- 콘텐츠 들어가는 부분 -->
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{ price }}</li>
+      
+      <li class="list-group-item">{{ sale_price }}</li>
+      <li class="list-group-item">{{ status }}</li>
+    </ul>
+    <!-- <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div> -->
+  </div>
+  {{/each}}
+</script>
+   <!-- 이 부분 footer -->
   <div class="text-center mt-2">
     <button class="btn btn-primary btn-sm px-5" id="prev">이전</button>
     <span id="page" class="px-3">1/10</span>
@@ -21,11 +57,24 @@
         $.ajax({
             type : "get",
             url : "https://dapi.kakao.com/v3/search/book?target=title",
-            headers : { Authorization: "KakaoAK 419dfbdca77c5c8f97ffe62cc8be0107"},
-            data : {query : '코틀린', page : 1, size : 10},
+            headers : { Authorization: 'KakaoAK 419dfbdca77c5c8f97ffe62cc8be0107'},
+            // data : {query : query, page : page, size : 10},
+            data: { query: 10, page: 1, size: 20 },
             dataType : 'json',
             success: function(data){
                 console.log(data);
+                //핸들바스 컴파일 -> ajax데이터를 핸들바스 변수에 넣어준다.
+                //  const tmp = $('#temp_book').html()
+                const temp = Handlebars.compile($('#temp_book').html());
+                //핸들바스 템플릿을 가져온다.
+                // const template = Handlebars.compile(tmp);
+                // 반복문을 돌릴 구간을 컴파일 하기 위해서 핸들바스 파라미터로 넣는다.
+                //  const tb_list = template(data);
+                //  tb_list는  each /each 구간에 바인딩 될  data변수를 넣는다.
+                //  $('#list_book').html(tb_list);
+                 $('#list_book').html(temp(data));
+                
+
             },
             error: function(error)
             {

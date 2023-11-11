@@ -12,6 +12,11 @@ router.get('/cart', function(req, res, next) {
 
 });
 
+router.get('/mypage', function(req, res, next) {
+  res.render('index', { title: '장바구니', pageName : "users/mypage.ejs"});
+
+});
+
 router.get('/join', function(req, res, next) {
   res.render('index', { title: '조인' , pageName: "auth/join.ejs"});
 });
