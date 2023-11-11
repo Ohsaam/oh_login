@@ -15,7 +15,7 @@ router.get('/join', function(req, res, next) {
   res.render('index', { title: '회원가입' , pageName: "auth/join.ejs"});
 });
 
-router.get('/board/board', function(req, res, next) {
+router.get('/board/', function(req, res, next) {
   res.render('index', { title: '게시판' , pageName: "board/board.ejs"});
 });
 
