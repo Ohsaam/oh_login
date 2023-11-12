@@ -32,6 +32,68 @@
 </body>
 <!-- href="/board/board" -->
 <script>
+class Board {
+    constructor(indexNum, subjectStr, writerStr, contentStr) {
+        this.index = indexNum;
+        this._subject = subjectStr;
+        this._writer = writerStr;
+        this._content = contentStr;
+        this._date = this.recordDate();
+        this._views = 0;
+    }
+
+    get subject() {
+        return this._subject;
+    }
+
+    set subject(value) {
+        if (value.length === 0) {
+            throw new Error("제목을 입력해주세요.");
+        }
+        this._subject = value;
+    }
+
+    get writer() {
+        return this._writer;
+    }
+
+    set writer(value) {
+        if (value.length === 0) {
+            throw new Error("작성자를 입력해주세요.");
+        }
+        this._writer = value;
+    }
+
+    get content() {
+        return this._content;
+    }
+
+    set content(value) {
+        if (value.length === 0) {
+            throw new Error("내용을 입력해주세요.");
+        }
+        this._content = value;
+    }
+
+    recordDate() {
+        const date = new Date();
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1;
+        let dd = date.getDate();
+
+        mm = (mm > 9 ? "" : 0) + mm;
+        dd = (dd > 9 ? "" : 0) + dd;
+
+        const arr = [yyyy, mm, dd];
+        return arr.join("-");
+    }
+}
+
+
+
+
+
+
 
 
 //아이디를 잘 받아오는 걸 확인 할 수 있다.
@@ -57,13 +119,13 @@ const writeFrm = document.querySelector("#writeFrm");
 
 const submitHandler = (e) => {
     e.preventDefault();
-    const subject = e.target.subject.value;
-    const write = e.target.write.value;
-    const content = e.target.content.value;
+    const board = new Board();
+    board.subject = e.target.subject.value;
+    board.writer = e.target.write.value;
+    board.content = e.target.content.value;
 
-    console.log(write);
-    console.log(subject);
-    console.log(content);
+    console.log(board);
+
 };
 
 writeFrm.addEventListener("submit", submitHandler);
