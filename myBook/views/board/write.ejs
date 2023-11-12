@@ -35,47 +35,43 @@
 class Board {
     constructor(indexNum, subjectStr, writerStr, contentStr) {
         this.index = indexNum;
-        this._subject = subjectStr;
-        this._writer = writerStr;
-        this._content = contentStr;
-        this._date = this.recordDate();
-        this._views = 0;
+        this.subject = subjectStr;
+        this.writer = writerStr;
+        this.content = contentStr;
+        this.date = recordDate();
+        this.views = 0;
     }
 
-    get subject() {
-        return this._subject;
-    }
 
-    set subject(value) {
+
+    set Subject(value) {
         if (value.length === 0) {
             throw new Error("제목을 입력해주세요.");
         }
-        this._subject = value;
+        this.subject = value;
     }
 
-    get writer() {
-        return this._writer;
-    }
 
-    set writer(value) {
+    set Writer(value) {
         if (value.length === 0) {
             throw new Error("작성자를 입력해주세요.");
         }
-        this._writer = value;
+        this.writer = value;
     }
 
-    get content() {
-        return this._content;
-    }
 
-    set content(value) {
+    set Content(value) {
         if (value.length === 0) {
             throw new Error("내용을 입력해주세요.");
         }
-        this._content = value;
+        this.content = value;
     }
 
-    recordDate() {
+}
+
+
+
+const recordDate = () => {
         const date = new Date();
         const yyyy = date.getFullYear();
         let mm = date.getMonth() + 1;
@@ -87,13 +83,6 @@ class Board {
         const arr = [yyyy, mm, dd];
         return arr.join("-");
     }
-}
-
-
-
-
-
-
 
 
 //아이디를 잘 받아오는 걸 확인 할 수 있다.
@@ -118,12 +107,25 @@ const writeFrm = document.querySelector("#writeFrm");
 
 const submitHandler = (e) => {
     e.preventDefault();
-    const board = new Board();
-    board.subject = e.target.subject.value;
-    board.writer = e.target.write_id.value;
-    board.content = e.target.content.value;
+    const subject = e.target.subject.value;
+    const writer = e.target.write_id.value;
+    const content = e.target.content.value;
 
-    console.log(board)
+    try{
+        const boardsObj = JSON.parse(localStorage.getItem("boards"))
+        const index = boardsObj.length;
+        const instance = new Board(index, subject, writer, content);
+        boardsObj.push(instance);
+
+        const boardsStr = JSON.stringify(boardsObj);
+        localStorage.setItem("boards",boardsStr);
+        location.href = "/board/board/" + index;
+ 
+    }catch(e){
+        alert(e.message);
+        console.error(e);
+    }
+
 
 
 

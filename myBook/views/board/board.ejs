@@ -15,8 +15,6 @@
                     <th>제목</th>
                     <th>글쓴이</th>
                     <th>작성일</th>
-                    <th>조회</th>
-                    <th>추천</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,16 +23,12 @@
                     <td>엌 아래글 진짜 관리자임?</td>
                     <td>ㅇㅇ</td>
                     <td>2020.04.23</td>
-                    <td>1000</td>
-                    <td>100</td>
                 </tr>
                 <tr>
                     <td>265120</td>
                     <td>본인 방금 추천 많이 받아서 개념글 상상함</td>
                     <td>운영자</td>
                     <td>2020.04.23</td>
-                    <td>7000</td>
-                    <td>150</td>
                 </tr>
             </tbody>
         </table>
@@ -55,9 +49,35 @@
 
 <script>
 // board 페이지에서 localStorage에서 데이터를 가져와서 노출
-
-let boardsStr = localStorage.getItem("board");
+let boardsStr = localStorage.getItem("boards");
 console.log(boardsStr)
+
+if(boardsStr == null)
+{
+    const listStr = JSON.stringify([]);
+    localStorage.setItem("boards",listStr);
+    boardsStr = listStr;
+}
+
+const boardsObj = JSON.parse(boardsStr) || [];
+const tableBody = document.querySelector(".table tbody");
+
+// 기존에 있는 테이블 내용 지우기
+tableBody.innerHTML = "";
+
+boardsObj.forEach(board => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${board.index}</td>
+        <td><a href = "board/view.ejs?index=${board.index}">${board.subject}</td>
+        <td>${board.writer}</td>
+        <td>${board.date}</td>
+        <td>${board.views}</td>
+        <td>${board.likes}</td>
+    `;
+    tableBody.appendChild(row);
+});
+
 
 </script>
 
