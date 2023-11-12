@@ -1,0 +1,43 @@
+<body>
+    <header>
+        <div class="homebox">
+            <a href="index.html" class="logo"></a>
+        </div>
+    </header>
+ 
+
+    <main>
+        <form class="detail">
+            <div class="name">
+                <p>미래는 항상 한 글자 앞에 있다. 다 읽고 나서야 비로소 따라잡을 수 있다.</p>
+            </div>
+            <div class="date">
+                <p>2022-01-15</p>
+            </div>
+            <hr>
+            <p class="box">★★★ 해탈한 명언집 ★★★
+ 
+
+            </p>
+            <div class="button">
+                <p><a href="write.html">글수정</a><a href="free.html">목록</a></p>
+            </div>
+        </form>
+    </main>
+ 
+
+</body>
+<script>
+
+const boardsStr = localStorage.getItem("boards");
+const boardsObj = JSON.parse(boardsStr);
+const idx = location.search;
+const index = location.search.slice(2);
+
+console.dir(location);
+console.log(index);
+
+
+
+
+</script>

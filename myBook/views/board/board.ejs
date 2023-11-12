@@ -69,11 +69,9 @@ boardsObj.forEach(board => {
     const row = document.createElement("tr");
     row.innerHTML = `
         <td>${board.index}</td>
-        <td><a href = "board/view.ejs?index=${board.index}">${board.subject}</td>
+        <td><a href="/board/read/index=${board.index}">${board.subject}</a></td>
         <td>${board.writer}</td>
         <td>${board.date}</td>
-        <td>${board.views}</td>
-        <td>${board.likes}</td>
     `;
     tableBody.appendChild(row);
 });
