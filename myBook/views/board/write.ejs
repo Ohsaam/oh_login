@@ -1,19 +1,36 @@
+<style>
+    .button input[type="submit"] {
+      color: inherit;
+      cursor:  pointer;
+      font-size: inherit;
+      background-color: rgba(128, 128, 128, 0.153);
+      padding: 0px;
+      width : 60px;
+      height: 35px;
+      
+    }
+  </style>
+
 <body>
     <main>
-        <form class="write" method="post" action="/board/board">
-            <input type="text" placeholder="작성자" id = "write_id" required >
-            <input type="text" placeholder="제목을 입력해주세요." required>
+        <form class="write" id = "writeFrm">
+            <input type="text" placeholder="작성자" id = "write" required >
+            <input type="text" placeholder="제목을 입력해주세요." id = "subject" required>
             <hr>
-            <input type="text" placeholder="내용을 입력해주세요." class="text" required>
+            <input type="text" placeholder="내용을 입력해주세요." id="content" required>
+           
             <div class="button">
-                <p><a class="write-link" >글쓰기</a>
-                   <a class="cancel-link" >취소</a></p>
+                <p> 
+                    <input type = "submit" value = "글작성"/>
+                   <a class="cancel-link" href = "/board/board">취소</a></p>
             </div>
         </form>
     </main>
 
-</body>
+    
 
+</body>
+<!-- href="/board/board" -->
 <script>
 
 
@@ -26,15 +43,31 @@ let email = localStorage.getItem('email')
 //localStorage에 있는 아이디를 끌고와서 nickname이나 email를 write_id에 넣고 싶은데 어떻게 해야돼?
 if(nickname)
 {
-    document.getElementById('write_id').value = nickname;
-    $('#write_id').prop("disabled", true)
+    document.getElementById('write').value = nickname;
+    $('#write').prop("disabled", true)
 }
 else if(email){
-    document.getElementById('write_id').value = email;
-    $('#write_id').prop("disabled", true)
+    document.getElementById('write').value = email;
+    $('#write').prop("disabled", true)
+
 }
 
+//여기서 내용을 작성한 다음에 글쓰기 버튼을 누르면, 그 정보들을 가져와서 board페이지에 노출시키고 싶은데 어떻게 해야 될까?
+const writeFrm = document.querySelector("#writeFrm");
 
+const submitHandler = (e) => {
+    e.preventDefault();
+    const subject = e.target.subject.value;
+    const write = e.target.write.value;
+    const content = e.target.content.value;
+
+    console.log(write);
+    console.log(subject);
+    console.log(content);
+};
+
+writeFrm.addEventListener("submit", submitHandler);
 
 
 </script>
+
