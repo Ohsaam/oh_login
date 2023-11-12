@@ -14,7 +14,7 @@
 <body>
     <main>
         <form class="write" id = "writeFrm">
-            <input type="text" placeholder="작성자" id = "write" required >
+            <input type="text" placeholder="작성자" id = "write_id" required >
             <input type="text" placeholder="제목을 입력해주세요." id = "subject" required>
             <hr>
             <input type="text" placeholder="내용을 입력해주세요." id="content" required>
@@ -105,13 +105,12 @@ let email = localStorage.getItem('email')
 //localStorage에 있는 아이디를 끌고와서 nickname이나 email를 write_id에 넣고 싶은데 어떻게 해야돼?
 if(nickname)
 {
-    document.getElementById('write').value = nickname;
-    $('#write').prop("disabled", true)
+    document.getElementById('write_id').value = nickname;
+    $('#write_id').prop("disabled", true)
 }
 else if(email){
-    document.getElementById('write').value = email;
-    $('#write').prop("disabled", true)
-
+    document.getElementById('write_id').value = email;
+    $('#write_id').prop("disabled", true)
 }
 
 //여기서 내용을 작성한 다음에 글쓰기 버튼을 누르면, 그 정보들을 가져와서 board페이지에 노출시키고 싶은데 어떻게 해야 될까?
@@ -121,10 +120,12 @@ const submitHandler = (e) => {
     e.preventDefault();
     const board = new Board();
     board.subject = e.target.subject.value;
-    board.writer = e.target.write.value;
+    board.writer = e.target.write_id.value;
     board.content = e.target.content.value;
 
-    console.log(board);
+    console.log(board)
+
+
 
 };
 

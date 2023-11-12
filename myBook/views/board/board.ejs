@@ -55,16 +55,9 @@
 
 <script>
 // board 페이지에서 localStorage에서 데이터를 가져와서 노출
-$(document).ready(() => {
-    let boardData = localStorage.getItem('boardData');
-    if (boardData) {
-        boardData = JSON.parse(boardData);
 
-        // 가져온 데이터를 테이블이나 다른 요소에 노출
-        $('#write_id').val(boardData.author);
-        // 나머지 데이터도 동일하게 처리
-    }
-});
+let boardsStr = localStorage.getItem("board");
+console.log(boardsStr)
 
 </script>
 
