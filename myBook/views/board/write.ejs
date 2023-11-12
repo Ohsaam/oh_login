@@ -1,23 +1,40 @@
 <body>
-    <header>
-        <div class="homebox">
-            <div>
-                <a href="index.html" class="logo"></a>
-            </div>
-        </div>
-    </header>
- 
-
- 
     <main>
-        <form class="write">
+        <form class="write" method="post" action="/board/board">
+            <input type="text" placeholder="작성자" id = "write_id" required >
             <input type="text" placeholder="제목을 입력해주세요." required>
             <hr>
             <input type="text" placeholder="내용을 입력해주세요." class="text" required>
             <div class="button">
-                <p><a href="free.html">글쓰기</a><a href="free.html">취소</a></p>
+                <p><a class="write-link" >글쓰기</a>
+                   <a class="cancel-link" >취소</a></p>
             </div>
         </form>
     </main>
 
 </body>
+
+<script>
+
+
+//아이디를 잘 받아오는 걸 확인 할 수 있다.
+// 카카오 - 닉네임 
+// 구글, 회원가입은 - email을 넣도록 하자
+// 해당 아이디랑 닉네임을 작성자에 넣고 disabled 처리를 하도록 하자
+let nickname = localStorage.getItem('nickname')
+let email = localStorage.getItem('email')
+//localStorage에 있는 아이디를 끌고와서 nickname이나 email를 write_id에 넣고 싶은데 어떻게 해야돼?
+if(nickname)
+{
+    document.getElementById('write_id').value = nickname;
+    $('#write_id').prop("disabled", true)
+}
+else if(email){
+    document.getElementById('write_id').value = email;
+    $('#write_id').prop("disabled", true)
+}
+
+
+
+
+</script>
