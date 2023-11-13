@@ -1,15 +1,78 @@
+<style>
+    #subject {
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #007bff;
+    }
+
+    #writer, #date {
+        display: inline-block;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        padding: 10px;
+        font-size: 1.1em;
+    }
+
+    #content {
+        padding: 10px;
+        font-size: 1.1em;
+        line-height: 1.6;
+    }
+
+    #viewFrm {
+        margin-top: 20px;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+
+    main {
+        margin-top: 20px;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .button {
+        margin-top: 20px;
+    }
+
+    .button a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn-info {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+</style>
+
 <body>
     <main>
         <h2>작성한 게시글</h2>
-        <form id = "viewFrm">
+        <form  id = "viewFrm">
             <div id = "subject">제목 :</div>
             <div id = "writer">작성자 : </div>
             <div id = "date">작성일 : </div>
             <div id = "content">내용 : </div>
         </form>
-        <div class="button">
-            <p><a href="write.html">글수정</a><a href="free.html">목록</a></p>
-        </div>
+        <button type="button" class="btn btn-info"><a class="page-link" href="/board/board">목록</a></button>
 
     </main>
  
@@ -30,6 +93,8 @@ console.log(index) // = 기준으로 나누고 나눠진 배열에서 두 번째
 const board = boardsObj[index];//인덱스를 사용해서 게시글 정보를 가져온다.
 const viewFrm = document.querySelectorAll("#viewFrm > div");
 //id가 viewFrn 아래의 div 태그 전부를 선택한다.
+
+
 for (let i = 0; i < viewFrm.length; i++) {
     //div 요소들을 반복문을 통해서 순회한다.
     const id = viewFrm[i].id;
@@ -40,5 +105,7 @@ for (let i = 0; i < viewFrm.length; i++) {
    //id를 사용하여 board 객체에서 해당 정보를 가져온다.
 
 }
+
+
 
 </script>
