@@ -11,17 +11,56 @@
 
 <script>
     const modifyFrm = document.querySelector("#modifyFrm")
-    const modifyFrmList = document.querySelectorAll("modifyFrm > div")
+    const modifyFrmList = document.querySelectorAll("#modifyFrm > div")
     const boardsObj = JSON.parse(localStorage.getItem("boards"))
     const idx = location.search
-    console.log(idx)
     const index = location.search.split("=")[1];
-    console.log(index)
+    const board = boardsObj[index];
 
+    for(let i =0; i<modifyFrmList.length; i++)
+    {
+        const element = modifyFrmList[i].childNodes[1];
+        const id = element.name;
+        element.value = board[id];
+    }
 
+    const isEmpty= (subject,writer,content)=>{
+        if(subject.length == 0) throw new Error("제목을 입력해주세요")
+        if(writer.length == 0) throw new Error("제목을 입력해주세요")
+        if(content.length == 0) throw new Error("제목을 입력해주세요")
+
+    };
     const modifyHandler = (e) => {
         e.preventDefault();
+        const subject = e.target.subject.value;
+        const writer = e.target.writer.value;
+        const content = e.target.content.value;
+        console.log(subject,writer,content)
+
+
+        try{
+            isEmpty(subject,writer,content)
+            board.subject = subject;
+            board.writer = writer;
+            board.content = content;
+            const boardStr = JSON.stringify(boardsObj);
+            localStorage.setItem("boards",boardStr);
+            location.href = "/board/read"+idx;
+        }
+        catch(e){
+            alert(e.message);
+            console.log(e);
+        }
+
+
     }
+    const backBtn = document.querySelector("#back")
+    console.log(backBtn);
+
+    $(backBtn).on('click', ()=>{
+        location.href = document.referrer;
+    })
+
 
     modifyFrm.addEventListener('submit', modifyHandler);
 

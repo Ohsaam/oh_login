@@ -132,3 +132,65 @@ ul {
 }
 .detail .button a:hover {color: blueviolet;}
 
+#subject {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #007bff;
+}
+
+#writer, #date {
+  display: inline-block;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 10px;
+  font-size: 1.1em;
+}
+
+#content {
+  padding: 10px;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+#viewFrm {
+  margin-top: 20px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+main {
+  margin-top: 20px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.button {
+  margin-top: 20px;
+}
+
+.button a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-info {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}

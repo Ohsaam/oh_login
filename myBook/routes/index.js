@@ -15,8 +15,8 @@ router.get('/join', function(req, res, next) {
   res.render('index', { title: '회원가입' , pageName: "auth/join.ejs"});
 });
 
+
 router.get('/board/board/', function(req, res, next) {
-  let index = req.params.index;
   res.render('index', { title: '게시판' , pageName: "board/board.ejs"});
 });
 
@@ -29,12 +29,10 @@ router.get('/board/board/', function(req, res, next) {
 
 
 //========================================================================================
-router.get('/board/list', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
-  res.render('index', { title: '글목록',  pageName: "board/list.ejs" });
-});
 
 
-router.get('/board/write', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+
+router.get('/board/write/', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
   res.render('index', { title: '글쓰기',  pageName: "board/write.ejs" });
 });
 
