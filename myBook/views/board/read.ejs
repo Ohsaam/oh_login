@@ -1,28 +1,16 @@
 <body>
-    <header>
-        <div class="homebox">
-            <a href="index.html" class="logo"></a>
-        </div>
-    </header>
- 
-
     <main>
-        <form class="detail">
-            <div class="name">
-                <p>미래는 항상 한 글자 앞에 있다. 다 읽고 나서야 비로소 따라잡을 수 있다.</p>
-            </div>
-            <div class="date">
-                <p>2022-01-15</p>
-            </div>
-            <hr>
-            <p class="box">★★★ 해탈한 명언집 ★★★
- 
-
-            </p>
-            <div class="button">
-                <p><a href="write.html">글수정</a><a href="free.html">목록</a></p>
-            </div>
+        <h2>작성한 게시글</h2>
+        <form id = "viewFrm">
+            <div id = "subject">제목 :</div>
+            <div id = "writer">작성자 : </div>
+            <div id = "date">작성일 : </div>
+            <div id = "content">내용 : </div>
         </form>
+        <div class="button">
+            <p><a href="write.html">글수정</a><a href="free.html">목록</a></p>
+        </div>
+
     </main>
  
 
@@ -30,14 +18,27 @@
 <script>
 
 const boardsStr = localStorage.getItem("boards");
-const boardsObj = JSON.parse(boardsStr);
-const idx = location.search;
-const index = location.search.slice(2);
+const boardsObj = JSON.parse(boardsStr); // JSON.parse를 사용하면 객체로 형변환 + array로 변환
+console.log(boardsObj)
 
-console.dir(location);
-console.log(index);
+const idx = location.search; // url 쿼리파라미터를 가져온다.
+console.log(location)
+console.log(idx)
+ const index = idx.split("=")[1];
+//const index = idx ? idx.split("=")[1] : 0;
+console.log(index) // = 기준으로 나누고 나눠진 배열에서 두 번째 요소인 인덱스를 가져옴
+const board = boardsObj[index];//인덱스를 사용해서 게시글 정보를 가져온다.
+const viewFrm = document.querySelectorAll("#viewFrm > div");
+//id가 viewFrn 아래의 div 태그 전부를 선택한다.
+for (let i = 0; i < viewFrm.length; i++) {
+    //div 요소들을 반복문을 통해서 순회한다.
+    const id = viewFrm[i].id;
+    //순회중인 div요소의 id를 가져온다.
+  //  console.log(id)
+    viewFrm[i].innerHTML += " " + board[id];
+   //div 요소의 내부 html에 해당하는 게시글의 정보를 추가한다.
+   //id를 사용하여 board 객체에서 해당 정보를 가져온다.
 
-
-
+}
 
 </script>

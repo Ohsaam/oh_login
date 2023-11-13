@@ -15,9 +15,9 @@ router.get('/join', function(req, res, next) {
   res.render('index', { title: '회원가입' , pageName: "auth/join.ejs"});
 });
 
-router.get('/board/board/:index', function(req, res, next) {
+router.get('/board/board/', function(req, res, next) {
   let index = req.params.index;
-  res.render('index', { title: '게시판' , pageName: "board/board.ejs", index: index });
+  res.render('index', { title: '게시판' , pageName: "board/board.ejs"});
 });
 
 // 이 라우터는 요청이 들어오면 'index'라는 뷰 템플릿을 렌더링하고, 객체를 전달하여 템플릿에 데이터를 전달
@@ -38,9 +38,9 @@ router.get('/board/write', function(req, res, next) {//app.js -> path 라이브�
   res.render('index', { title: '글쓰기',  pageName: "board/write.ejs" });
 });
 
-router.get('/board/read/:index', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+router.get('/board/read/', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
   let index = req.params.index;
-  res.render('index', { title: '상세보기',  pageName: "board/read.ejs", index:index });
+  res.render('index', { title: '상세보기',  pageName: "board/read.ejs"});
 }); 
 
 router.get('/board/update/:index', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
