@@ -33,6 +33,7 @@
 
 <script>
     const modifyFrm = document.querySelector("#modifyFrm")
+    //폼 내의 모든 div 요소를 선택하여 NodeList로 반환
     const modifyFrmList = document.querySelectorAll("#modifyFrm > div")
     const boardsObj = JSON.parse(localStorage.getItem("boards"))
     const idx = location.search
@@ -42,8 +43,24 @@
     for(let i =0; i<modifyFrmList.length; i++)
     {
         const element = modifyFrmList[i].childNodes[1];
-        const id = element.name;
+        //두 번째 자식 노드는 사용자의 입력을 받는 <input> 또는 <textarea> 요소
+        const id = element.name; //name 속성을 사용하여 해당 필드의 이름을 확인
+        //element.name은 현재 선택된 입력 필드(<input> 또는 <textarea>)의 name 속성 값을 가져온다.
+        //name 속성에는 subject,writer,content와 같은 값을 가지고 있다.    
         element.value = board[id];
+        //element가 나타내는 입력 필드에 값을 할당하는 역할
+    }
+    const recordDate = () => {
+        const date = new Date();
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1;
+        let dd = date.getDate();
+
+        mm = (mm > 9 ? "" : 0) + mm;
+        dd = (dd > 9 ? "" : 0) + dd;
+
+        const arr = [yyyy, mm, dd];
+        return arr.join("-");
     }
 
     const isEmpty= (subject,writer,content)=>{
@@ -57,6 +74,7 @@
         const subject = e.target.subject.value;
         const writer = e.target.writer.value;
         const content = e.target.content.value;
+
         console.log(subject,writer,content)
 
 
@@ -65,6 +83,7 @@
             board.subject = subject;
             board.writer = writer;
             board.content = content;
+            board.date = recordDate();
             const boardStr = JSON.stringify(boardsObj);
             localStorage.setItem("boards",boardStr);
             location.href = "/board/read"+idx;

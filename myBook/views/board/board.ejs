@@ -14,6 +14,7 @@
                     <td>글제목</td>
                     <td>작성자</td>
                     <td>등록일</td>
+                    <td>조회수</td>
                 </tr>
             </thead>
             <tbody>
@@ -57,26 +58,14 @@ if(boardsStr == null)
     localStorage.setItem("boards",listStr);
     boardsStr = listStr;
 }
-
-const boardsObj = JSON.parse(boardsStr) || [];
+// boardsStr은 이전에 문자열로 변환한 게시글 데이터를 담고 있는 것
+const boardsObj = JSON.parse(boardsStr);
 const tableBody = document.querySelector(".table tbody");
 
 // 기존에 있는 테이블 내용 지우기
 tableBody.innerHTML = "";
 
-// boardsObj.forEach(board => {
-//     const row = document.createElement("tr");
-//     row.innerHTML = `
-//         <tr>
-//         <td>${board.index}</td>
-//         <td><a href="/board/read/index=${board.index}">${board.subject}</a></td>
-//         <td>${board.writer}</td>
-//         <td>${board.date}</td>
-//         <td>${board.views}</td>
-//         </tr>
-//     `;
-//     tableBody.appendChild(row);
-// });
+
 
 const template = (index, objValue) =>{
     return `
@@ -85,6 +74,7 @@ const template = (index, objValue) =>{
         <td><a href="/board/read?index=${objValue.index}">${objValue.subject}</a></td>
         <td>${objValue.writer}</td>
         <td>${objValue.date}</td>
+        <td>${objValue.views}</td>
         </tr>
     `;
 };
@@ -92,8 +82,11 @@ const tbody = document.querySelector("tbody");
 
 for(let i = 0; i < boardsObj.length; i++)
 {
-    console.log(template(i,boardsObj[i]));
     tbody.innerHTML += template(i,boardsObj[i]);
+    boardsObj[i].refresh = false;
+    const refreshStr = JSON.stringify(boardsObj);
+    localStorage.setItem("boards", refreshStr);
+
 }
 
 </script>

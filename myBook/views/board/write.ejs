@@ -29,6 +29,7 @@ class Board {
         this.content = contentStr;
         this.date = recordDate();
         this.views = 0;
+        this.refresh = false;
     }
 
 
@@ -100,12 +101,23 @@ const submitHandler = (e) => {
     const writer = e.target.write_id.value;
     const content = e.target.content.value;
 
+    /* // 이 부분은 예시로 localStorage에 저장된 데이터를 가져오는 코드입니다.
+        const storedDataInLocalStorage = [
+        { id: 0, subject: "제목1", writer: "작성자1", content: "내용1" },
+        { id: 1, subject: "제목2", writer: "작성자2", content: "내용2" },
+        // ... 더 많은 객체들 ...
+        ];
+ */
     try{
         const boardsObj = JSON.parse(localStorage.getItem("boards"))
         const index = boardsObj.length;
         //배열처럼 length를 구할 수 있는 이유는 처음에 board에서 stringify([])로 저장하기 떄문에 넘어올 때 배열로 저장된다.
         //그렇기 떄문에 JSON.parse(localStorage.getItem("boards")) 하게 된다면 배열 형태로 반환되며 배열의 길이를 구할 수 있다.
+
+        /* boardsObj에 대한 설명 : localStorage에 저장되어 있는 키가 "boards"인 value값을 받아오는데 JSON.parse로 변환한다. 
+        JSON.parse는 Array로 변환해주는 역할을 진행하며 boardsObj는 키가 "boards"인 value값을 배열의 형태로 돌려받는다 라고 해석하면 될까? -> yes*/
         const instance = new Board(index, subject, writer, content);
+        //여기서 index는 현재 배열의 길이를 나타낸다.
         boardsObj.push(instance);
 
         const boardsStr = JSON.stringify(boardsObj);
