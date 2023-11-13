@@ -43,9 +43,8 @@ router.get('/board/read/', function(req, res, next) {//app.js -> path 라이브�
   res.render('index', { title: '상세보기',  pageName: "board/read.ejs"});
 }); 
 
-router.get('/board/update/:index', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
-  let index = req.params.index;
-  res.render('index', { title: '수정하기',  pageName: "board/update.ejs", index:index });
+router.get('/board/modify/', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  res.render('index', { title: '수정하기',  pageName: "board/modify.ejs"});
 }); 
 
 
