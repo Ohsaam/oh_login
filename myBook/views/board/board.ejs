@@ -95,16 +95,22 @@ const getTotalPageCount = () => {
   return Math.ceil(boardsObj.length / COUNT_PER_PAGE);
 };
 
-
+//버튼을 생성하고 초기상태 설정
 const setPageButtons = () => {
   numberButtonWrapper.innerHTML = '';
-
+//새로운 페이지 버튼을 추가하기 전에 이미 생성된 버튼을 모두 제거
+// getTotalPageCount은 전체페이지수를 반환
+//<span class="number-button"> 1 </span><span class="number-button"> 2 </span><span class="number-button"> 3 </span><span class="number-button"> 4 </span><span class="number-button"> 5 </span>
+//이런식으로 생성된다.
   for (let i = 1; i <= getTotalPageCount(); i++) {
-    numberButtonWrapper.innerHTML += `<span class="number-button"> ${i} </span`;
-  }
+    numberButtonWrapper.innerHTML += `<span class="number-button"> ${i} </span>`;
+  }//각 페이지 번호에  해당하는 버튼을 HTML 문자열로 생성하여
+  //numberButtonWrapper에 추가${i}는 현재페이지
 
   numberButtonWrapper.firstChild.classList.add('selected');
+  //초기에 첫 번째 페이지가 선택된 상태로 표시
   pageNumberButtons = document.querySelectorAll('.number-button');
+  //생성된 모든 페이지 버튼을 선택하여 저장한다 (배열로 관리)
 };
 
 
@@ -113,6 +119,23 @@ const setPageOf = (pageNumber) => {
 
   const startIdx = COUNT_PER_PAGE * (pageNumber - 1);
   const endIdx = COUNT_PER_PAGE * pageNumber;
+/* 예를 들어 설명해보자.
+COUNT_PER_PAGE = 3 , pageNumber = 1이라고 가정하면 
+
+페이지 :: 1
+** startInx : 3*(1-1) = 0
+
+** endInx : COUNT_PER_PAGE(3) * pageNumber(1) = 3이다.
+ 첫 페이지는 (0~2)를 보여준다.{0,1,2}
+
+======================================================
+
+페이지 :: 2
+
+** startInx : 3*(2-1) = 3
+** endInx : 3*2 = 6
+    = 3~5까지
+*/
 
   for (let i = startIdx; i < endIdx && i < boardsObj.length; i++) {
     // 이 부분에서 번호/글제목/작성자/등록일/조회수를 가져와서 템플릿에 적용
