@@ -56,7 +56,8 @@ async function getList(){
   // getDocs(q);함수가 q를 받아올 떄 까지 await한다.
   let rows = [];
   querySnapshot.forEach((doc) => {
-    rows.push({...doc.data()});
+    rows.push({id:doc.id,...doc.data()});
+    console.log(doc.id)
     console.log(rows);
     let temp = Handlebars.compile($('#temp').html());
     $('#posts').html(temp(rows));
