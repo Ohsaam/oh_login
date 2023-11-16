@@ -71,16 +71,12 @@ async function getList(){
 </script>
 
 <script>
-  //개발자 센터 > application > storage > localStorage
   const email = localStorage.getItem('email');
   let nickname = localStorage.getItem('nickname')
   $('#btn-write').on('click', () => {
-    //로그인을 해야만 글쓰기 권한이 있다
-    //너 로그인 했니? - 너 email값 쥐고 있어? - 어디에? localStorage
     if (email || nickname) {
       location.href = '/board/write';
     }
-    //나 로그인 안했어? 하고 와
 
   });
 </script>

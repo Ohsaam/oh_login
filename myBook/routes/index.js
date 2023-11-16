@@ -16,7 +16,7 @@ router.get('/join', function(req, res, next) {
 });
 
 
-router.get('/board/board/', function(req, res, next) {
+router.get('/board', function(req, res, next) {
   res.render('index', { title: '게시판' , pageName: "board/board.ejs"});
 });
 
@@ -32,17 +32,18 @@ router.get('/board/board/', function(req, res, next) {
 
 
 
-router.get('/board/write/', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+router.get('/board/write', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
   res.render('index', { title: '글쓰기',  pageName: "board/write.ejs" });
 });
 
-router.get('/board/read/', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
-  let index = req.params.index;
-  res.render('index', { title: '상세보기',  pageName: "board/read.ejs"});
+router.get('/board/:id', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  let id = req.params.id;
+  res.render('index', { title: '상세보기',  pageName: "board/read.ejs", id:id});
 }); 
 
-router.get('/board/modify/', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
-  res.render('index', { title: '수정하기',  pageName: "board/modify.ejs"});
+router.get('/board/modify/:id', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+  let id = req.params.id;
+  res.render('index', { title: '수정하기',  pageName: "board/modify.ejs", id:id});
 }); 
 
 
