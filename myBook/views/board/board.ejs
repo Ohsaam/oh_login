@@ -1,49 +1,49 @@
-<body>
-    <div id="main">
-        <h1>게시판</h1>
-        <hr><br>
-        <button type="button" class="btn btn-primary">
-            <a class="page-link" href="/board/write">글쓰기 </a>
-        </button>
-        <br><br>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td>번호</td>
-                    <td>글제목</td>
-                    <td>작성자</td>
-                    <td>등록일</td>
-                    <td>조회수</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>265121</td>
-                    <td>엌 아래글 진짜 관리자임?</td>
-                    <td>ㅇㅇ</td>
-                    <td>2020.04.23</td>
-                </tr>
-                <tr>
-                    <td>265120</td>
-                    <td>본인 방금 추천 많이 받아서 개념글 상상함</td>
-                    <td>운영자</td>
-                    <td>2020.04.23</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="row my-2">
+  <div class="col">
+      <h1 class="text-center mb-2">게시글</h1>
+      <div class="text-end">
+          <button class="btn btn-primary btn-sm" id="btn-write">글쓰기</button>
+      </div>
+      <div id="posts"></div>
+      <div class="text-center my-3" id="btn-group" style="display:none">
+          <button class="btn btn-primary btn-sm" id="btn-prev">이전</button>
+          <span class="px-2" id="span-page">1</span>
+          <button class="btn btn-primary btn-sm" id="btn-next">다음</button>
+      </div>
+  </div>
+</div>
 
-        <br><br>
-        <div class="pagination-container">
-            <div class="prev-button">이전</div>
-            <div class="number-button-wrapper"><span class="number-button">1</span></div>
-            <div class="next-button">이후</div>
-          </div>
-    </div>
 
-<script type ="module">
-import {app} from '/javascripts/firebase.js';
-import {addDoc,collection, getFirestore } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-import {query, where, getDocs, orderBy, doc} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+<script id="temp" type="text/x-handlebars-template">
+  {{#each .}}
+  <div class="card my-2" style="font-size:0.8rem">
+      <div class="card-body">
+          <a href="/board/{{ id }}"><h5>{{ subject }}</h5></a>
+          <div class="ellipsis2">{{ content }}</div>
+      </div>
+      <div class="card-footer">
+          <span>Posted on {{ date }} by {{ write_id }}</span>
+      </div>
+  </div>
+  {{/each}}
+</script>
+
+<script type="module">
+  import { app } from '/javascripts/firebase.js';
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
+  import {
+    query,
+    where,
+    getDocs,
+    orderBy,
+    doc,
+  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
 // https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko
 // https://firebase.google.com/docs/firestore/quickstart?hl=ko
 
@@ -51,11 +51,18 @@ const db = getFirestore(app);
 let page = 1;
 getList();
 async function getList(){
-  const q = query(collection(db, "board"), orderBy("date",'desc'));
+  const q = query(collection(db, 'boards'), orderBy('date','desc'));
   const querySnapshot = await getDocs(q); //값을 받아온다.
   // getDocs(q);함수가 q를 받아올 떄 까지 await한다.
+  let rows = [];
   querySnapshot.forEach((doc) => {
-  console.log(doc.id, " => ", doc.data());
+    rows.push({...doc.data()});
+    console.log(rows);
+    let temp = Handlebars.compile($('#temp').html());
+    $('#posts').html(temp(rows));
+    // 가지고는 오는데 처리를 못한다. 어떻게 해야될까? 핸들바스 - 태그랑 매핑을 못하는 상황임
+    // 지금 핸들바스에서 처리를 하려고 하는데 테이블에 있는 #boards1에 핸들바스를 추가하려고해 근데 그 안에 선택자를 접근하려고 하는데,
+    // 접근할 떄 table #boards1인데 이렇게 내부선택자로 접근하면 될까? 주석에 써있는것들이 내궁금중이야
 });
 }
 //여기서 데이터를 접근할 떄 data() 함수를 호출해야한다.
