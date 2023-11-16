@@ -1,8 +1,8 @@
 <div class="row my-5">
     <div class="col">
       <h1 class="text-center mb-5">글정보</h1>
-      <div class="text-end mb-2" id="btn-group" style="display: none">
-        <button class="btn btn-primary btn-sm" id="btn-update">수정</button>
+      <div class="text-end mb-2" id="btn-group" >
+        <button class="btn btn-primary btn-sm" id="btn-update" >수정</button>
         <button class="btn btn-danger btn-sm" id="btn-delete">삭제</button>
       </div>
       <div id="board"></div>
@@ -52,4 +52,10 @@
     let temp = Handlebars.compile($('#temp').html());
     $('#board').html(temp(row));
 
+    $(document).ready(function () {
+  // 또는 $(function () { 로 대체 가능
+  $('#btn-update').on('click', () => {
+    location.href = `/modify/${id}`;
+  });
+});
 </script>

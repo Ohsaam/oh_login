@@ -1,108 +1,47 @@
-<style>
-#complete,#back
-{
-        padding: 8px;
-        font-size: 1.1em;
-        margin-top: 8px;
-        cursor: pointer;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        outline: none;
-        width: 100px;
-        
-}
-
-#complete:hover,
-    #back:hover {
-        background-color: #0056b3;
-    }
-
-</style>
-<body>
-<form id = "modifyFrm">
-    <div class="my-3"> 제목 <input type = "text" name = "subject" class="form-control"/></div>
-    <div class="my-3"> 작성자  <input type = "text" name = "writer" class="form-control" disabled/></div>
-    <div class="my-3"> 내용  <textarea name = "content" class="form-control"></textarea></div>
-    <input type = "submit" value ="수정완료" id = "complete"/>
-</form>
-
-<button  id = "back" >뒤로가기</button>
-</body>
-
-<script>
-    const modifyFrm = document.querySelector("#modifyFrm")
-    //폼 내의 모든 div 요소를 선택하여 NodeList로 반환
-    const modifyFrmList = document.querySelectorAll("#modifyFrm > div")
-    const boardsObj = JSON.parse(localStorage.getItem("boards"))
-    const idx = location.search
-    const index = location.search.split("=")[1];
-    const board = boardsObj[index];
-
-    for(let i =0; i<modifyFrmList.length; i++)
-    {
-        const element = modifyFrmList[i].childNodes[1];
-        //두 번째 자식 노드는 사용자의 입력을 받는 <input> 또는 <textarea> 요소
-        const id = element.name; //name 속성을 사용하여 해당 필드의 이름을 확인
-        //element.name은 현재 선택된 입력 필드(<input> 또는 <textarea>)의 name 속성 값을 가져온다.
-        //name 속성에는 subject,writer,content와 같은 값을 가지고 있다.    
-        element.value = board[id];
-        //element가 나타내는 입력 필드에 값을 할당하는 역할
-    }
-    const recordDate = () => {
-        const date = new Date();
-        const yyyy = date.getFullYear();
-        let mm = date.getMonth() + 1;
-        let dd = date.getDate();
-
-        mm = (mm > 9 ? "" : 0) + mm;
-        dd = (dd > 9 ? "" : 0) + dd;
-
-        const arr = [yyyy, mm, dd];
-        return arr.join("-");
-    }
-
-    const isEmpty= (subject,writer,content)=>{
-        if(subject.length == 0) throw new Error("제목을 입력해주세요")
-        if(writer.length == 0) throw new Error("제목을 입력해주세요")
-        if(content.length == 0) throw new Error("제목을 입력해주세요")
-
-    };
-    const modifyHandler = (e) => {
-        e.preventDefault();
-        const subject = e.target.subject.value;
-        const writer = e.target.writer.value;
-        const content = e.target.content.value;
-
-        console.log(subject,writer,content)
+<div class="row my-5">
+    <div class="col">
+      <h1 class="text-center mb-5">글정보</h1>
+      <div class="text-end mb-2" id="btn-group" style="display: none">
+        <button class="btn btn-primary btn-sm" id="btn-update">수정</button>
+        <button class="btn btn-danger btn-sm" id="btn-delete">삭제</button>
+      </div>
+      <div id="board"></div>
+    </div>
+  </div>
 
 
-        try{
-            isEmpty(subject,writer,content)
-            board.subject = subject;
-            board.writer = writer;
-            board.content = content;
-            board.date = recordDate();
-            const boardStr = JSON.stringify(boardsObj);
-            localStorage.setItem("boards",boardStr);
-            location.href = "/board/read"+idx;
-        }
-        catch(e){
-            alert(e.message);
-            console.log(e);
-        }
+ <!--게시글정보 템플릿-->
+<script id="temp" type="text/x-handlebars-template">
+    <div class='card'>
+      <div class='card-body'>
+        <h5>{{subject}}</h5>
+        <div>{{content}}</div>
+      </div>
+      <div class='card-footer'>
+        Posted on
+        <span>{{date}}</span>
+        by
+        <span>{{write_id}}</span>
+      </div>
+    </div>
+  </script> 
 
+  <script type="module">
+    import { app } from '/javascripts/firebase.js';
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+    } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+  
+    import {
+      query,
+      where,
+      getDoc,
+      orderBy,
+      doc,
+    } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+    
 
-    }
-    const backBtn = document.querySelector("#back")
-    console.log(backBtn);
-
-    $(backBtn).on('click', ()=>{
-        location.href = document.referrer;
-    })
-
-
-    modifyFrm.addEventListener('submit', modifyHandler);
 
 </script>
