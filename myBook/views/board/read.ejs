@@ -1,9 +1,10 @@
 <div class="row my-5">
     <div class="col">
       <h1 class="text-center mb-5">글정보</h1>
-      <div class="text-end mb-2" id="btn-group" >
+      <div class="text-end mb-2" id="btn-group" style="display: none">
         <button class="btn btn-primary btn-sm" id="btn-update" >수정</button>
         <button class="btn btn-danger btn-sm" id="btn-delete">삭제</button>
+        <button class="btn btn-danger btn-sm" id="btn-list">목록</button>
       </div>
       <div id="board"></div>
     </div>
@@ -52,9 +53,19 @@
     const row = docSnap.data();
     let temp = Handlebars.compile($('#temp').html());
     $('#board').html(temp(row));
+
+    //여기서 로컬스토리지 email와 디비 email(write_id)이랑 같은지 확인해야된다.
+    const email = localStorage.getItem("email");
+    if(email == row.write_id)
+    {
+      console.log(email)
+      console.log(row.email)
+      $("#btn-group").toggle();
+
+    }
     $(document).ready(function () {
-  // 또는 $(function () { 로 대체 가능
-  $('#btn-update').on('click', () => {
+ 
+    $('#btn-update').on('click', () => {
     location.href = `/modify/${id}`;
   });
 });
@@ -65,6 +76,10 @@
     await deleteDoc(doc(db,'boards',id))
     location.href = "/board";
     })
+    $('#btn-list').on('click',()=>{
+      location.href = '/board'
+    })
+    
 </script>
 
 <!-- 삭제버튼 스크립트 추가

@@ -46,6 +46,4 @@ router.get('/modify/:id', function(req, res, next) {//app.js -> path 라이브�
   res.render('index', { title: '수정하기',  pageName: "board/modify.ejs", id:id});
 }); 
 
-
-
 module.exports = router;

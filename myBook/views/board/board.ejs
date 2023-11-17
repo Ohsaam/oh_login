@@ -23,10 +23,22 @@
       </div>
       <div class="card-footer">
           <span>Posted on {{ date }} by {{ write_id }}</span>
+          <span class = "heart" id = "{{id}}">
+            <span>
+              하트이미지
+              <span class ="fcnt">
+                {{fcnt}}
+              </span>
+            </span>
+          </span>
       </div>
+
   </div>
   {{/each}}
 </script>
+
+
+
 
 <script type="module">
   import { app } from '/javascripts/firebase.js';
@@ -34,6 +46,8 @@
     getFirestore,
     collection,
     addDoc,
+    startAfter,
+    limit
   } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
 
   import {
@@ -68,7 +82,38 @@ async function getList(){
 }
 //여기서 데이터를 접근할 떄 data() 함수를 호출해야한다.
 
+$("#posts").on("click","heart()",async function(){
+  let id = $(this).attr("id");
+  
+  if(email){
+    await addDoc(collection(db,"favorite"),{pid : id, email : email});
+    alert("좋아요 추가")
+    getList();
+  }
+  else{
+    location.href = "/login";
+  }
+})
 
+$("#boards").on("click","heart1()",async function(){
+  let id = $(this).attr("id");
+  const q = query(collection(db,"favorite"),where("pid", "==", id), where("email","==",email));
+  const snapShot = await getDocs(q);
+  snapShot.forEach((row)=>{
+    deleteDoc(doc(db,"favorite",row.id))
+    alert("좋아요 삭제")
+    getList();
+  })
+
+  if(email){
+    await addDoc(collection(db,"favorite"),{pid : id, email : email});
+    alert("좋아요 추가")
+    getList();
+  }
+  else{
+    location.href = "/login";
+  }
+})
 </script>
 
 <script>

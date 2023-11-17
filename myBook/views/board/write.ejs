@@ -1,7 +1,7 @@
 
 <body>
     <main>
-        <form class="write" name = "writeFrm">
+        <form class="write" id = "writeFrm">
             <input type="text" placeholder="작성자" id = "write_id" required >
             <input type="text" placeholder="제목을 입력해주세요." id = "subject" required>
             <hr>
@@ -9,7 +9,7 @@
            
             <div class="button">
                 <p> 
-                    <input type = "submit" value = "수정하기"/>
+                    <input type = "submit" value = "완료"/>
                    <a class="cancel-link" href = "/board/board">취소</a>
                 </p>
             </div>
@@ -27,7 +27,7 @@ import {addDoc,collection, getFirestore } from 'https://www.gstatic.com/firebase
 
 
 const db = getFirestore(app);
-$(writeFrm).on('submit', async() => {
+$('#writeFrm').on('submit', async() => {
     event.preventDefault();
     let write_id = $(writeFrm.write_id).val();
     let subject = $(writeFrm.subject).val();
