@@ -41,7 +41,7 @@ router.get('/board/:id', function(req, res, next) {//app.js -> path 라이브러
   res.render('index', { title: '상세보기',  pageName: "board/read.ejs", id:id});
 }); 
 
-router.get('/modify/:id', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
+router.get('/board/modify/:id', function(req, res, next) {//app.js -> path 라이브러리 __dirname, views
   let id = req.params.id;
   res.render('index', { title: '수정하기',  pageName: "board/modify.ejs", id:id});
 }); 

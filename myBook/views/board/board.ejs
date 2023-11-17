@@ -21,24 +21,26 @@
           <a href="/board/{{ id }}"><h5>{{ subject }}</h5></a>
           <div class="ellipsis2">{{ content }}</div>
       </div>
-      <div class="card-footer">
-          <span>Posted on {{ date }} by {{ write_id }}</span>
-          <span class = "heart" id = "{{id}}">
-            <span>
-              하트이미지
-              <span class ="fcnt">
-                {{fcnt}}
-              </span>
-            </span>
+        <div class="card-footer">
+          <span>Posted on {{ date }} by {{ email }}</span>
+          <span class="heart{{ucnt}}" id="{{id}}">
+            <span>{{heart ucnt}}</span>
+            <span class="fcnt">{{fcnt}}</span>
           </span>
       </div>
+    </div>
 
   </div>
   {{/each}}
 </script>
 
 
-
+<script>
+  Handlebars.registerHelper('heart', function (ucnt) {
+    if (ucnt == 0) return '♡';
+    else return '♥';
+  });
+</script>
 
 <script type="module">
   import { app } from '/javascripts/firebase.js';
@@ -75,28 +77,27 @@ async function getList(){
     console.log(rows);
     let temp = Handlebars.compile($('#temp').html());
     $('#posts').html(temp(rows));
-    // 가지고는 오는데 처리를 못한다. 어떻게 해야될까? 핸들바스 - 태그랑 매핑을 못하는 상황임
-    // 지금 핸들바스에서 처리를 하려고 하는데 테이블에 있는 #boards1에 핸들바스를 추가하려고해 근데 그 안에 선택자를 접근하려고 하는데,
-    // 접근할 떄 table #boards1인데 이렇게 내부선택자로 접근하면 될까? 주석에 써있는것들이 내궁금중이야
 });
 }
 //여기서 데이터를 접근할 떄 data() 함수를 호출해야한다.
 
-$("#posts").on("click","heart()",async function(){
+$("#posts").on("click",".heart0",async function(){
+  //posts는 부모태그 -> 자식태그를 접근하기 위해(why? click 했을 떄 감지 자체가 자식태그) heart0에 접근한다.
   let id = $(this).attr("id");
-  
   if(email){
     await addDoc(collection(db,"favorite"),{pid : id, email : email});
     alert("좋아요 추가")
     getList();
   }
-  else{
+  else{ // 이메일이 없는 경우는 로그인을 안 한 것.
     location.href = "/login";
   }
 })
 
-$("#boards").on("click","heart1()",async function(){
-  let id = $(this).attr("id");
+$("#posts").on("click",".heart1",async function(){
+  let id = $(this).attr("id"); 
+  //클릭된 요소의 id 속성 값을 가져온다.
+  //좋아요(heart) 버튼이 클릭되었을 때 해당 게시물의 ID를 가져오기 위해 사용된다.
   const q = query(collection(db,"favorite"),where("pid", "==", id), where("email","==",email));
   const snapShot = await getDocs(q);
   snapShot.forEach((row)=>{
@@ -105,14 +106,6 @@ $("#boards").on("click","heart1()",async function(){
     getList();
   })
 
-  if(email){
-    await addDoc(collection(db,"favorite"),{pid : id, email : email});
-    alert("좋아요 추가")
-    getList();
-  }
-  else{
-    location.href = "/login";
-  }
 })
 </script>
 

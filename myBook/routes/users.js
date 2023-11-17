@@ -19,4 +19,6 @@ router.get('/join', function(req, res, next) {
 //router.get이 뭐냐면 /cart에 get 요청이 오게 되면 get 요청에 대해 처리한다. 
 // function은 콜백함수이며, /cart에 get요청이 왔을 때 
 // 
+
+
 module.exports = router;

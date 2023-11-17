@@ -1,84 +1,61 @@
-
-<body>
-    <main>
-        <form class="write" id = "writeFrm">
-            <input type="text" placeholder="작성자" id = "write_id" required disabled>
-            <input type="text" placeholder="제목을 입력해주세요." id = "subject" required>
-            <hr>
-            <input type="text" placeholder="내용을 입력해주세요." id="content" required>
-           
-            <div class="button">
-                <p> 
-                    <input type = "submit" value = "수정하기"/>
-                   <a class="cancel-link" href = "/board/board">취소</a>
-                </p>
-            </div>
-        </form>
-    </main>
+<div class="row my-5">
+  <div class="col">
+      <h1 class="text-center mb-5">글수정</h1>
+      <form name="frm" method="post">
+          <input class="form-control my-2" name="title" placeholder="제목을 입력하세요.">
+          <textarea class="form-control" name="body" rows="10" placeholder="내용을 입력하세요."></textarea>
+          <div class="text-center my-2">
+              <button class="btn btn-primary">글수정</button>
+              <button class="btn btn-secondary" type="reset">수정취소</button>
+          </div>
+      </form>
+  </div>
+</div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-  <script type="module">
-    import { app } from '/javascripts/firebase.js';
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      updateDoc
-    } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-  
-    import {
-      query,
-      where,
-      getDoc,
-      orderBy,
-      doc,
-    } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script type="module">
+  import { app } from '/javascripts/firebase.js';
+  import {getFirestore, doc, getDoc, setDoc} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
     
-
-//템플릿 바스를 이용하지 않고도 사용가능하겠는데? -> 디비로부터 값을 먼저 받아온 다음에 -> input에 노출시킨다.
-//총 값을 2번 넣어야 되는데 
-// 먼저 값을 받아오자.
     const db = getFirestore(app);
-    const id = '<%=id%>'; // 이건 어디서 알게된다?->  let id = req.params.id; 그 아이디값으로 디비에 보낸다.
-    // 서버 측에서 id의 값을 주입받기를 기대하고 있다.+  서버에서 렌더링될 때 해당 코드가 평가되어 실제 값으로 대체된다.
-    console.log(id) //url이 짤린 부분이 들어가겠지(id값)
-    const docRef = doc(db, 'boards', id);
-    const docSnap = await getDoc(docRef); // 그러면 디비로부터 받아온 값을 docSnap에 저장한다. (단 건)
-    console.log(docSnap)
-    const row = docSnap.data();
-    document.getElementById('write_id').value = row.write_id;
-    document.getElementById('subject').value = row.subject;
-    document.getElementById('content').value = row.content;
-    //================= 값을 잘 받아옴 ===========================================
+    const id = "<%=id%>";
+    let row = null; 
+    /* 
+    id를 가져온다(url에) url에 파라미터 값을 가져온다. id값은 어디서 결정돼? board에서 근데 
+    라우터에서 :id로 값 자체가 params.id로 들어간다.
+     */
+    getRow();
+    async function getRow(){
+      const snapshot = await getDoc(doc(db,`boards/${id}`))
+      //아이디값을 이런식으로 넘겨준다.
+      row = snapshot.data();
+      $(frm.title).val(row.subject);
+      $(frm.body).val(row.content);
+    }
+
+    $(frm).on('submit', async (event) => {
+    console.log('글수정 클릭');
+    event.preventDefault(); //새로고침 사이드이펙트 발동되는 걸 막음
+    $("#modal-confirm .modal-body").html("수정된 정보를 저장하시겠습니까?");
+    $("#modal-confirm").modal("show");
+    //모달창에서 예(btn-primary)버튼을 눌렀을 때 이벤트 감지되고 실행문 진행되는 거니까
+    //즉 외부에서 호출되는 함수가 아니니까  또 다른게는 onclick이벤트 핸들러의 콜백함수이라서
+    //즉 내부에서 호출되고 끝나는 거니까 호이스팅 함수일 필요가 없다.
+    let subject = $(frm.title).val();
+    let content = $(frm.body).val();
+    $("#modal-confirm").on("click", ".btn-primary", async () => {//수정하기 처리에 대한 콜백
+        await setDoc(doc(db, `boards/${id}`),{
+            ...row, subject,  content
+        }); // 여기서 내가 몰랐던 부분은 boards는 url이 아니라, 파이어베이스 콜렉션 네임이다.
+        //성공하면 목록페이지로 간다
+        location.href = "/board";
+    });//end of 모달창에서 예 버튼 눌렀을 때 이벤트 처리하기
     
-    $(document).ready(function () {
-    // or can be replaced with $(function () {
-    $('#writeFrm').on('submit', async (e) => {
-      e.preventDefault();
-      let write_id = $(writeFrm.write_id).val();
-      let subject = $(writeFrm.subject).val();
-      let content = $(writeFrm.content).val();
-      let date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-      console.log(write_id, subject, content, date);
-      //뭐가 잘못된거지? -> 업데이트 쿼리를 짰고 해당 부분을 기존의 갖고 있던 파이어베이스 디비에서 가져다가 해당하는 쿼리문을 수정해야한다. 
-      //지금 현재 쿼리문을 구글 파이어베이스에서 확인했는데 변경하지 못하고 있다. 뭐가 문제인가?
-
-      const modify_title = doc(db, 'boards', id);
-     const modify_after = await updateDoc(modify_title, {
-        write_id: write_id,
-        subject: subject,
-        content: content,
-        date: date,
-      });
-      console.log(modify_after)
-
-      // Redirect after updating the document
-      location.href = document.referrer;
-    }); // 수정했을 떄 경로가 read.ejs로 가야된다.
   });
 
-//async 키워드는 함수를 비동기식으로 만든다.
-//getDoc 작업이 완료될 때까지 함수 실행을 일시 중지합니다. 계속 진행하기 전에 docSnap이 비동기 작업의 결과를 받도록 보장한다.
-//getDoc 작업이 완료된 후 함수는 실행을 계속한다.
+    $(frm).on("reset", (e)=>{
+      e.preventDefault();
+      getRow();
+    })
 </script>

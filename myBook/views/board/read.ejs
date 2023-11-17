@@ -63,21 +63,16 @@
       $("#btn-group").toggle();
 
     }
-    $(document).ready(function () {
- 
-    $('#btn-update').on('click', () => {
-    location.href = `/modify/${id}`;
-  });
-});
+//왜 async를 썼는지 기억해자. url의 차이
 
-
-    $('#btn-delete').on('click',async()=>{
-
-    await deleteDoc(doc(db,'boards',id))
-    location.href = "/board";
-    })
-    $('#btn-list').on('click',()=>{
-      location.href = '/board'
+    $("#btn-delete").on('click',async()=>{
+      //버튼을 눌렀을 떄 한 번 더 모달창을 띄우고 에 버튼을 누르면 디비삭제진행
+      if(confirm(id+"번 게시글 삭제하실?"))
+      {
+        //디비 삭제처리 진행
+        await deleteDoc(doc(db,`boards/${id}`));
+        location.href = "/board";
+      }
     })
     
 </script>
