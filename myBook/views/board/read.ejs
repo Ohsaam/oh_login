@@ -33,6 +33,7 @@
       getFirestore,
       collection,
       addDoc,
+      deleteDoc
     } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
   
     import {
@@ -51,11 +52,22 @@
     const row = docSnap.data();
     let temp = Handlebars.compile($('#temp').html());
     $('#board').html(temp(row));
-
     $(document).ready(function () {
   // 또는 $(function () { 로 대체 가능
   $('#btn-update').on('click', () => {
     location.href = `/modify/${id}`;
   });
 });
+
+
+    $('#btn-delete').on('click',async()=>{
+
+    await deleteDoc(doc(db,'boards',id))
+    location.href = "/board";
+    })
 </script>
+
+<!-- 삭제버튼 스크립트 추가
+    1. 일반적인 module에서 import 하는 함수는 일반 스크립트 태그에서 접근이 불가능하다.
+-->
+
