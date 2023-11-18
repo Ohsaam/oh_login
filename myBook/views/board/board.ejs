@@ -1,3 +1,18 @@
+<style>
+  .heart0,
+  .heart1 {
+    cursor: pointer;
+    float: right;
+    color: red;
+    font-size: 1.5rem;
+  }
+  .fcnt {
+    font-size: 0.5rem;
+    float: right;
+    margin-top: 15px;
+  }
+</style>
+
 <div class="row my-2">
   <div class="col">
       <h1 class="text-center mb-2">게시글</h1>
@@ -49,6 +64,7 @@
     collection,
     addDoc,
     startAfter,
+    deleteDoc,
     limit
   } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
 
@@ -63,6 +79,15 @@
 // https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko
 // https://firebase.google.com/docs/firestore/quickstart?hl=ko
 
+$('#btn-next').on('click', function () {
+    page++;
+    getList();
+  });
+  $('#btn-prev').on('click', function () {
+    page--;
+    getList();
+  });
+
 const db = getFirestore(app);
 let page = 1;
 getList();
@@ -71,12 +96,43 @@ async function getList(){
   const querySnapshot = await getDocs(q); //값을 받아온다.
   // getDocs(q);함수가 q를 받아올 떄 까지 await한다.
   let rows = [];
-  querySnapshot.forEach((doc) => {
-    rows.push({id:doc.id,...doc.data()});
-    console.log(doc.id)
-    console.log(rows);
-    let temp = Handlebars.compile($('#temp').html());
-    $('#posts').html(temp(rows));
+  querySnapshot.docs.forEach(async(doc, index) => {
+    // 페이지네이션 구현 자리
+    //index가 현재 페이지에서 보여질 범위
+    let size = 3;
+    let start = (page-1) * size;
+    let last = Math.ceil(querySnapshot.docs.length/size);
+    let end = page * size -1;
+    if(index >= start && index <= end)
+    //한 페이지에 표시할 게시물의 범위를 지정하는 역할
+    {
+        /* 여기에다 좋아요 디비처리 진행 */
+        const q1 = query(collection(db,'good'),where('pid','==', doc.id))
+        const q1_bottle = await getDocs(q1);
+    
+        const q2 = query(collection(db,'good'),where('pid', '==', doc.id),where('email','==', email) )
+        const q2_bottle = await getDocs(q2);
+    
+        rows.push({id:doc.id,...doc.data(), fcnt : q1_bottle.docs.length, ucnt : q2_bottle.docs.length });
+    
+        /*  페이징 처리 UI 추가 */
+        if (querySnapshot.docs.length > 0) {
+          //조회된 결과가 있어?
+          $('#btn-group').show();
+        }
+        $('#span-page').html(page + '/' + last);
+
+        if (page == 1) $('#btn-prev').attr('disabled', true);
+        else $('#btn-prev').attr('disabled', false);
+        //너 마지막 페이지야?
+        if (page == last) $('#btn-next').attr('disabled', true);
+        else $('#btn-next').attr('disabled', false);
+
+        let temp = Handlebars.compile($('#temp').html());
+        $('#posts').html(temp(rows));
+      
+    }
+
 });
 }
 //여기서 데이터를 접근할 떄 data() 함수를 호출해야한다.
@@ -85,7 +141,7 @@ $("#posts").on("click",".heart0",async function(){
   //posts는 부모태그 -> 자식태그를 접근하기 위해(why? click 했을 떄 감지 자체가 자식태그) heart0에 접근한다.
   let id = $(this).attr("id");
   if(email){
-    await addDoc(collection(db,"favorite"),{pid : id, email : email});
+    await addDoc(collection(db,'good'),{pid : id, email : email});
     alert("좋아요 추가")
     getList();
   }
@@ -98,10 +154,10 @@ $("#posts").on("click",".heart1",async function(){
   let id = $(this).attr("id"); 
   //클릭된 요소의 id 속성 값을 가져온다.
   //좋아요(heart) 버튼이 클릭되었을 때 해당 게시물의 ID를 가져오기 위해 사용된다.
-  const q = query(collection(db,"favorite"),where("pid", "==", id), where("email","==",email));
+  const q = query(collection(db,'good'),where("pid", "==", id), where("email","==",email));
   const snapShot = await getDocs(q);
   snapShot.forEach((row)=>{
-    deleteDoc(doc(db,"favorite",row.id))
+    deleteDoc(doc(db,'good',row.id))
     alert("좋아요 삭제")
     getList();
   })
