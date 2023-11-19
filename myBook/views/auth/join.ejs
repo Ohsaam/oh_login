@@ -18,7 +18,8 @@
 <!-- =======endOfpassword======================= -->
         <div class="input-group my-2">
           <div class="input-group-text">주소</div>
-          <input class="form-control" id="address" />
+          <input class="form-control" id="address"/>
+          <button class="btn btn-success" type = "button" id ="addressSearch" onclick="findAddr()">주소검색</button>
         </div>
 
 
@@ -70,7 +71,7 @@
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
 window.onload = function(){
-    document.getElementById("address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+    document.getElementById("addressSearch").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
         new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
