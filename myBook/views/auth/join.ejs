@@ -1,7 +1,7 @@
 <div class="row my-5 justify-content-center">
     <div class="col-8 col-md-6 col-lg-4">
       <h3 class="text-center mb-5">회원가입</h3>
-      <form name="frm" method="post">
+      <form name="frm" method="post", id = 'joinfrm'>
         <div class="input-group my-2">
           <div class="input-group-text">이 메 일</div>
           <input class="form-control" name="email" />
@@ -40,6 +40,8 @@
       </form>
     </div>
   </div>
+
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script type="module">
     import { app } from '/javascripts/firebase.js';
     import { getAuth,createUserWithEmailAndPassword,} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
@@ -48,28 +50,40 @@
 
     const auth = getAuth(app); 
     const db = getFirestore(app);
-    $(frm).on('submit', function (e) {
-      console.log('회원가입버튼 클릭');
+    $(frm).on('submit', async function (e) {
       e.preventDefault();
       let email = $(frm.email).val();
       let password = $(frm.password).val();
       let address = $(frm.address).val();
+      let addressDetail = $(frm.addressDetail).val()
       let phone = $(frm.phone).val();
 
+      if(email == "" || password == "" || address == ""|| addressDetail == "" || phone == ""){
+        $("#modal-alert .modal-body").html("제목 또는 내용을 입력하세요!");
+        $("#modal-alert").modal("show");
+      }
+      else{
+        
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((response) => {
+            //회원가입에 성공하면
+            console.log(response);
+          })
+          .catch((error) => alert(error.message));
 
-      console.log(`${email} ${password} ${address}, ${phone}`);
-  
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((response) => {
-          //회원가입에 성공하면
-          console.log(response);
-          location.href = '/login';
-        })
-        .catch((error) => alert(error.message));
-    }); //// end of createUserWithEmailAndPassword
-  </script>
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script>
+          await addDoc(collection(db, "users"), {
+            email: email,
+            password: password,
+            address: address,
+            addressDetail: addressDetail,
+            phone : phone
+        });
+        location.href = '/login';
+
+      }
+      
+        }); //// end of createUserWithEmailAndPassword
+
 window.onload = function(){
     document.getElementById("addressSearch").addEventListener("click", function(){ //주소입력칸을 클릭하면
         //카카오 지도 발생
@@ -82,4 +96,5 @@ window.onload = function(){
     });
 }
 
-</script>
+  </script>
+

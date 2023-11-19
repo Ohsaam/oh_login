@@ -1,14 +1,13 @@
 <style>
-  @media screen and (max-width:960px){
-    #slider-div{
+  @media screen and (max-width: 960px){
+    #slider-div {
       display: none;
     }
   }
 </style>
-
 <nav class="navbar navbar-expand-lg bg-success navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">한빛미디어</a>
+    <a class="navbar-brand" href="#">한빛미디어</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -23,10 +22,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item" id="notice">
-          <a class="nav-link active" aria-current="page" href="/board/" + index>게시판</a>
+          <a class="nav-link active" aria-current="page" href="/board">게시판</a>
+        </li>
+        <li class="nav-item" id="youtube">
+          <a class="nav-link active" aria-current="page" href="#">유튜브</a>
+        </li>
+        <li class="nav-item" id="movie">
+          <a class="nav-link active" aria-current="page" href="#">영화</a>
         </li>
         <li class="nav-item" id="cart" style="display: none">
           <a class="nav-link active" aria-current="page" href="/users/cart"
@@ -34,6 +39,7 @@
           >
         </li>
       </ul>
+      <!--========================= [[ users section ]] =======================-->
       <div class="d-flex">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item" id="login">
@@ -47,74 +53,115 @@
             >
           </li>
           <li class="nav-item" id="logout" style="display: none">
-            <a class="nav-link active" aria-current="page" href="/"
-              >로그아웃</a
-            >
+            <a class="nav-link active" aria-current="page">로그아웃</a>
           </li>
         </ul>
       </div>
     </div>
   </div>
 </nav>
-
-  <!-- =======================HTML 캐러셀 추가 부분 ======================= -->
-
-  <div id="slider-div">
-    <div>
-      <img src="/images/header01.png" alt="" width="100%" />
-    </div>
-    <div>
-      <img src="/images/header02.png" alt="" width="100%" />
-    </div>
-    <div>
-      <img src="/images/header03.png" alt="" width="100%" />
-    </div>
-    <div>
-      <img src="/images/header04.png" alt="" width="100%" />
-    </div>
+<!--============================== [end of Navbar] ===========================-->
+<!--============================= << 캐러셀 추가 >> ============================-->
+<div id="slider-div">
+  <div>
+    <img src="/images/header01.png" alt="직장인을위한 챗GPT" width="100%" />
   </div>
-
-  <script>
-    console.log(`header - ${localStorage.getItem('email')}`);
-    if(localStorage.getItem('email') || localStorage.getItem('nickname')) //localStorage에 getItem('item')을 갖고 있다면, == 사용자가 이메일을 입력 했을 때, 
-    {
-      $('#login, #logout, #mypage, #cart #email').toggle(); // 토글 버튼을 활성화 시킨다.
-    }
-    $('#logout').on('click', ()=>{
-      localStorage.clear();
-      location.href = '/';
-    })
-    // 나는 페이지를 기존(배운) 페이지를 분리 한 후 --> 거기에 로그인이 성공하면 main 페이지로 돌아온다.
-
-
-     applySlider = () =>{
-     $('#slider-div').slick({
-        slide : 'div',  //슬라이드 되어야 할 태그 ex) div, li
-        infinite : true,  //무한 반복 옵션
-        slidesToShow :1,  // 한 화면에 보여질 컨텐츠 개수
-        slidesToScroll : 1,  //스크롤 한번에 움직일 컨텐츠 개수
-        speed : 100,  // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
-        arrows : true,  // 옆으로 이동하는 화살표 표시 여부
-        dots : true,  // 스크롤바 아래 점으로 페이지네이션 여부
-        autoplay : true,  // 자동 스크롤 사용 여부
-        autoplaySpeed : 10000,  // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
-        pauseOnHover : true,  // 슬라이드 이동시 마우스 호버하면 슬라이더 멈추게 설정
-        vertical : false,  // 세로 방향 슬라이드 옵션
-        prevArrow : "<button type='button' class='slick-prev'><div style='font-size:1.5rem;color:white;'>&lt;</div></button>",
-        nextArrow : "<button type='button' class='slick-next'><div style='font-size:1.5rem;color:white;'>&gt;</div></button>",
-        dotsClass : "slick-dots",  //아래 나오는 페이지네이션(점) css class 지정
-        draggable : true,  //드래그 가능 여부 
-        responsive : [  // 반응형 웹구현 옵션
-            {
-                breakpoint : 960,  //화면 사이즈 960px
-                settings : { slidesToShow : 3 }  //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
-            }, {
-                breakpoint : 768,  //화면 사이즈 768px
-                settings : { slidesToShow : 2 }  //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
-            }
-        ]
-    });
-}
-applySlider()
+  <div>
+    <img src="/images/header02.png" alt="데이터분석을 배우는" width="100%" />
+  </div>
+  <div>
+    <img src="/images/header03.png" alt="FastAPI를 사용한" width="100%" />
+  </div>
+  <div>
+    <img src="/images/header04.png" alt="챗GPT업무..." width="100%" />
+  </div>
+</div>
+<!--============================= << 캐러셀 추가 >> ============================-->
+<!--============================= << 캐러셀 이벤트 처리 >> ============================-->
+<script type="module">
+  //파이어베이스 콘솔에서 지원하는 Authentification빌드 사용해서 플젝을 진행하고 있다
+  //export const app = initializeApp(firebaseConfig)
+  //firebase.js에 정의되어 있으므로 import문이 필요함
+  import { app } from '/javascripts/firebase.js';
+  import {
+    signOut,
+    getAuth,
+  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+  const auth = getAuth(app);
+  console.log(auth);
+  //jquery - DOM API - 복잡하고, 가독성 제로 -jquery제공하는 코드로 DOM조작하기 위해 사용함
+  //document.getElementById("logout").addEventListener('click', ()=>{})
+  //$(..) is not defined 발동 - index.js -> jquery-1.12.0.js import확인 -> jquery('#id')
+  $('#logout').on('click', () => {
+    //jquery에서 제공되는 문법으로 이벤트 처리중
+    auth.signOut();
+    //아래코드는 location.href='/'만나면 볼 수 없다 - 왜냐면 주소 url이 바뀌니까요
+    //바뀌면 뭐? - 기존에 요청이 끊어지고 새로운 요청으로 처리되니까
+    signOut(auth)
+      .then(() => {
+        //콜백함수 실행
+        // Sign-out successful.
+        console.log('로그아웃 성공 - 구글서버');
+      })
+      .catch((error) => {
+        console.log(error); //로그아웃 실패시 호출 - 로그통해 정보 수집
+      });
+    localStorage.clear(); //BOM, DOM, firebase-app.js
+    location.href = '/'; //로그아웃이 되면 처음으로 돌아가시오. -> http://localhost:3000/
+  });
 </script>
+<script>
+  //너 로컬스토리지에 이멜주소 있어?
+  console.log(`header - ${localStorage.getItem('email')}`);
+  if (localStorage.getItem('email')) {
+    //왜 참이야?
+    console.log('여기로 들어왔니?');
+    //보이는 건 안보임, 안보이는건 보임
+    $('#login,  #logout, #email, #cart').toggle();
 
+    $('#email a').html(localStorage.getItem('email'));
+  }
+
+  // 함수 표현식에서 function을 붙이면 변수의 호이스팅 이슈와 같이 무조건 제일 앞쪽에 올려놓는다.
+  //그래서 호출을 먼저하고 함수 구현이 뒤에 있어도 에러가 없다.
+  //화살표함수(arrow function) - 안됨
+  applySlider = () => {
+    console.log('여기');
+    $('#slider-div').slick({
+      slide: 'div', //슬라이드 되어야 할 태그 ex) div, li
+      infinite: true, //무한 반복 옵션
+      slidesToShow: 1, // 한 화면에 보여질 컨텐츠 개수
+      slidesToScroll: 1, //스크롤 한번에 움직일 컨텐츠 개수
+      speed: 100, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+      arrows: true, // 옆으로 이동하는 화살표 표시 여부
+      dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
+      autoplay: true, // 자동 스크롤 사용 여부
+      autoplaySpeed: 10000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+      pauseOnHover: true, // 슬라이드 이동시 마우스 호버하면 슬라이더 멈추게 설정
+      vertical: false, // 세로 방향 슬라이드 옵션
+      prevArrow:
+        "<button type='button' class='slick-prev'><div style='font-size:1.5rem;color:white;'>&lt;</div></button>",
+      nextArrow:
+        "<button type='button' class='slick-next'><div style='font-size:1.5rem;color:white;'>&gt;</div></button>",
+      dotsClass: 'slick-dots', //아래 나오는 페이지네이션(점) css class 지정
+      draggable: true, //드래그 가능 여부
+      responsive: [
+        // 반응형 웹구현 옵션
+        {
+          breakpoint: 960, //화면 사이즈 960px
+          settings: { slidesToShow: 3 }, //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+        },
+        {
+          breakpoint: 768, //화면 사이즈 768px
+          settings: { slidesToShow: 2 }, //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+        },
+      ],
+    });
+  };
+  applySlider();
+</script>
+<!--============================= << 캐러셀 이벤트 처리 >> ============================-->
+
+<!-- 
+  https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
+ -->
