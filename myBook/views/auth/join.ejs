@@ -6,6 +6,7 @@
           <div class="input-group-text">이 메 일</div>
           <input class="form-control" name="email" />
         </div>
+        <!-- =======endOfemail====== -->
         <div class="input-group">
           <div class="input-group-text">비밀번호</div>
           <input
@@ -14,6 +15,23 @@
             type="password"
           />
         </div>
+<!-- =======endOfpassword======================= -->
+        <div class="input-group my-2">
+          <div class="input-group-text">주소</div>
+          <input class="form-control" id="address" />
+        </div>
+
+
+        <div class="input-group my-2">
+          <div class="input-group-text">상세주소</div>
+          <input class="form-control" id="addressDetail" />
+        </div>
+
+        <div class="input-group my-2">
+          <div class="input-group-text">휴대폰 번호</div>
+          <input class="form-control" name="phone" />
+        </div>
+
         <div class="my-3">
           <button class="btn btn-success w-100">회원가입</button>
         </div>
@@ -23,18 +41,22 @@
   </div>
   <script type="module">
     import { app } from '/javascripts/firebase.js';
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-    } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-    const auth = getAuth(app); //apikey, 너정보
+    import { getAuth,createUserWithEmailAndPassword,} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+    import {addDoc,collection, getFirestore} from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
+
+    const auth = getAuth(app); 
+    const db = getFirestore(app);
     $(frm).on('submit', function (e) {
       console.log('회원가입버튼 클릭');
       e.preventDefault();
       let email = $(frm.email).val();
-      //사용자가 화면에 입력한 비번 담기
       let password = $(frm.password).val();
-      console.log(`${email} ${password}`);
+      let address = $(frm.address).val();
+      let phone = $(frm.phone).val();
+
+
+      console.log(`${email} ${password} ${address}, ${phone}`);
   
       createUserWithEmailAndPassword(auth, email, password)
         .then((response) => {
@@ -45,4 +67,18 @@
         .catch((error) => alert(error.message));
     }); //// end of createUserWithEmailAndPassword
   </script>
-  
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+window.onload = function(){
+    document.getElementById("address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address").value = data.address; // 주소 넣기
+                document.querySelector("#addressDetail").focus(); //상세입력 포커싱
+            }
+        }).open();
+    });
+}
+
+</script>
