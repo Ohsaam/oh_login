@@ -22,7 +22,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item" id="notice">
           <a class="nav-link active" aria-current="page" href="/board">게시판</a>
@@ -48,7 +48,7 @@
             >
           </li>
           <li class="nav-item" id="email" style="display: none">
-            <a class="nav-link active" aria-current="page" href="/users/mypage"
+            <a class="nav-link active" aria-current="page" id = "mypage-link"
               >MyPage</a
             >
           </li>
@@ -79,28 +79,35 @@
 <!--============================= << 캐러셀 추가 >> ============================-->
 <!--============================= << 캐러셀 이벤트 처리 >> ============================-->
 <script type="module">
-  //파이어베이스 콘솔에서 지원하는 Authentification빌드 사용해서 플젝을 진행하고 있다
-  //export const app = initializeApp(firebaseConfig)
-  //firebase.js에 정의되어 있으므로 import문이 필요함
   import { app } from '/javascripts/firebase.js';
   import {
     signOut,
     getAuth,
   } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    startAfter,
+    deleteDoc,
+    limit
+  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
+  import {
+    query,
+    where,
+    getDocs,
+    orderBy,
+    doc,
+  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
+
   const auth = getAuth(app);
   console.log(auth);
-  //jquery - DOM API - 복잡하고, 가독성 제로 -jquery제공하는 코드로 DOM조작하기 위해 사용함
-  //document.getElementById("logout").addEventListener('click', ()=>{})
-  //$(..) is not defined 발동 - index.js -> jquery-1.12.0.js import확인 -> jquery('#id')
   $('#logout').on('click', () => {
-    //jquery에서 제공되는 문법으로 이벤트 처리중
     auth.signOut();
-    //아래코드는 location.href='/'만나면 볼 수 없다 - 왜냐면 주소 url이 바뀌니까요
-    //바뀌면 뭐? - 기존에 요청이 끊어지고 새로운 요청으로 처리되니까
     signOut(auth)
       .then(() => {
-        //콜백함수 실행
-        // Sign-out successful.
         console.log('로그아웃 성공 - 구글서버');
       })
       .catch((error) => {
@@ -109,6 +116,27 @@
     localStorage.clear(); //BOM, DOM, firebase-app.js
     location.href = '/'; //로그아웃이 되면 처음으로 돌아가시오. -> http://localhost:3000/
   });
+
+  const db = getFirestore(app);
+  // 마이페이지 링크 클릭 시 이벤트
+  $("#email").on("click", async function (event) {
+    event.preventDefault(); 
+    const email = localStorage.getItem('email');
+
+    if (email) {
+      const userQuery = query(collection(db, 'users'), where('email', '==', email));
+      const userSnapshot = await getDocs(userQuery);
+
+      if (!userSnapshot.empty) {
+        const userId = userSnapshot.docs[0].id;
+
+        // userId를 사용하여 마이페이지로 이동
+        location.href = `/users/mypage/${userId}`;
+      }
+    }
+  });
+  
+
 </script>
 <script>
   //너 로컬스토리지에 이멜주소 있어?
@@ -118,7 +146,6 @@
     console.log('여기로 들어왔니?');
     //보이는 건 안보임, 안보이는건 보임
     $('#login,  #logout, #email, #cart').toggle();
-
     $('#email a').html(localStorage.getItem('email'));
   }
 
