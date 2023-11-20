@@ -89,7 +89,7 @@
       type="search"
       name="keyword"
       id="keyword"
-      placeholder="Search..."
+      placeholder="독서음악"
     />
     <button class="btnSearch">
       <img
@@ -104,6 +104,12 @@
 
 
 <script>
+window.onload = function () {
+  const initialQuery = '독서음악'; // 초기 검색어를 원하는 값으로 설정
+  search(initialQuery);
+};
+
+
 //사용자 입력한 키워드를 담기  위해 변수 선언
 const keyword = document.querySelector('#keyword');//이벤트 소스의 주소번지 얻기
 // 내장함수를 사용해서 keydown 이벤트 처리 - 콜백함수 만남
@@ -151,7 +157,7 @@ const search = (query) => {
   // insert here - 검색 결과를 가져오는 코드 작성하기
 
   const ajax = new XMLHttpRequest();
-  const Youtube_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyCNM4n7ZcIIP9H0IB2hgw6brZeYRKQ1Vew&type=video&maxResults=25&q=${query}`;
+  const Youtube_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyCNM4n7ZcIIP9H0IB2hgw6brZeYRKQ1Vew&type=video&maxResults=9&q=${query}`;
   ajax.open('GET',Youtube_URL,false);
   ajax.send();//send()호출될 때 비로서 서버측에 요청이 일어남 0번에서 출발함 -1) -2) -3) -> 4(도착)
 
