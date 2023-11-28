@@ -26,6 +26,10 @@ router.get('/update/:id', function (req, res, next) {
   res.render('index', { title: '회원정보수정', pageName: 'users/update.ejs', id:id });
 });
 
+router.get('/calender', function(req, res, next) {
+  res.render('index', { title: '캘린더' , pageName: "users/calender.ejs"});
+});
+
 
 router.get('/mypage/:id', function (req, res, next) {
   // res.send();파라미터 문자열이 출력되고 나는 장바구니 화면을 출력할거니까 render함수 호출함

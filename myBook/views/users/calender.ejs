@@ -1,0 +1,49 @@
+
+
+<h1>캘린더</h1>
+<div id="calendar"></div>
+  <!-- CDN방식 링크 -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.querySelector('#calendar')
+      // 캘린더 객체 생성하기 및 생성자 호출 - 초기화 속성값 지정
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: "prev,today,next",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,listWeek"  
+        },
+        // 일정에 대한 데이터셋 가져오기
+        // eventSources: [{
+        //   events: function(info, successCallback, failureCallback) {
+        //     $.ajax({
+        //       url: 'event2.json',
+        //       type: 'GET',
+        //       dataType: 'json',
+        //       success: function(data) {
+        //         console.log(data); // 이미 Array 형태
+        //         // console.log(JSON.stringify(data)); // string으로 바꿈
+        //         // const temp = JSON.stringify(data);
+        //         // console.log(JSON.parse(temp)); // 그걸 다시 Array로 바꿈
+        //         data.map((item) => {
+        //           console.log(item.title);
+        //           console.log(item.start);
+        //         })
+        //         successCallback(data);
+        //       }
+        //     }); ////// end of ajax
+        //   }, ///////// end of events
+        //     // color: "#FF0000",
+        //     // textColor: " " 
+        // }] //////// end of eventSources
+      })
+      calendar.render() // 위에서 초기화된 정보로 달력을 그려줘
+    })
+
+
+    
+  </script>
+
+  
