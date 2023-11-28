@@ -54,6 +54,10 @@
     let temp = Handlebars.compile($('#temp').html());
     $('#board').html(temp(row));
 
+    $("#btn-list").on('click',()=>{
+      location.href = "/board";
+    })
+
     //여기서 로컬스토리지 email와 디비 email(write_id)이랑 같은지 확인해야된다.
     const email = localStorage.getItem("email");
     if(email == row.write_id)
@@ -74,6 +78,12 @@
         location.href = "/board";
       }
     })
+
+    $("#btn-update").on('click', async function(){//비동기처리 구간이다 - Promise -> async or await
+    //firestore database연동이 필요없는 상황임
+    //수정페이지로 이동해서 수정할 내용을 작성한 다음에 db연동이 필요하니까- 페이지이동만 처리할께
+    location.href = "/board/modify/"+id;
+  });  
     
 </script>
 
