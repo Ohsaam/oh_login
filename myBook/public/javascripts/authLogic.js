@@ -77,6 +77,11 @@ export const loginfacebook = (auth, facebookProvider) => {
       const user = res.user;
       const credential = FacebookAuthProvider.credentialFromResult(res);
       const accessToken = credential.accessToken;
+      localStorage.setItem("uid", user.uid);
+      localStorage.setItem('email', user.email);
+      localStorage.setItem("displayName", user['displayName']);
+      resolve(user)
+      //window.location.href = "/"
     }).catch((error) => reject(error));
   });
 };

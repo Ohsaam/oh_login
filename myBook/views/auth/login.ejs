@@ -147,7 +147,6 @@
     googlelogin.addEventListener('click', async(event)=>{
       event.preventDefault(); // 캡쳐링을 막아준다.
       const result = await loginGoogle(auth1, authlogic.googleProvider)
-      window.location.href = "/";
 
     })
 
