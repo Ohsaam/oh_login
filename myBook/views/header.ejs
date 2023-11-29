@@ -35,14 +35,12 @@
         </li>
         <li class="nav-item" id="cart" style="display: none">
           <a class="nav-link active" aria-current="page" href="/users/cart"
-            >장바구니</a>
-
-            <li class="nav-item" id="calendar1" style="display: none">
-              <a class="nav-link active" aria-current="page" >캘린더</a>
-            </li>    
+            >장바구니</a
+          >
         </li>
-
-
+        <li class="nav-item" id="calendar1">
+          <a class="nav-link active" aria-current="page" href="/calender">캘린더</a>
+        </li>
       </ul>
       <!--========================= [[ users section ]] =======================-->
       <div class="d-flex">
@@ -122,8 +120,6 @@
     location.href = '/'; //로그아웃이 되면 처음으로 돌아가시오. -> http://localhost:3000/
   });
 
-
-
   const db = getFirestore(app);
   // 마이페이지 링크 클릭 시 이벤트
   $("#email").on("click", async function (event) {
@@ -142,13 +138,6 @@
       }
     }
   });
-
-  $("#calendar1").on("click", async function (event){
-
-    location.href = `/users/calender/`;
-
-
-  })
   
 
 </script>
@@ -159,7 +148,7 @@
     //왜 참이야?
     console.log('여기로 들어왔니?');
     //보이는 건 안보임, 안보이는건 보임
-    $('#login,  #logout, #email, #cart ,#calendar').toggle();
+    $('#login,  #logout, #email, #cart, #calendar1').toggle();
     $('#email a').html(localStorage.getItem('email'));
   }
 

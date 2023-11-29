@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 //'/'와 관련된 라우트는 routes폴더의 index파일에 설정된 라우트 함수를 통해 처리됨
 app.use('/users', usersRouter);
+
 // '/users'와 관련된 라우트는 users파일에 작성된 라우트 함수를 통해 처리됨
 
 // catch 404 and forward to error handler

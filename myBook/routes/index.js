@@ -11,7 +11,6 @@ router.get('/login', function(req, res, next) {
   res.render('index', { title: '로그인' , pageName: "auth/login.ejs"});
 });
 
-
 router.get('/join', function(req, res, next) {
   res.render('index', { title: '회원가입' , pageName: "auth/join.ejs"});
 });
@@ -19,6 +18,10 @@ router.get('/join', function(req, res, next) {
 
 router.get('/board', function(req, res, next) {
   res.render('index', { title: '게시판' , pageName: "board/board.ejs"});
+});
+
+router.get('/calender', function(req, res, next) {
+  res.render('index', { title: '캘린더' , pageName: "calender/calender.ejs"});
 });
 
 // 이 라우터는 요청이 들어오면 'index'라는 뷰 템플릿을 렌더링하고, 객체를 전달하여 템플릿에 데이터를 전달
@@ -30,7 +33,6 @@ router.get('/board', function(req, res, next) {
 
 
 //========================================================================================
-
 
 
 
