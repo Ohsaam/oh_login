@@ -72,9 +72,10 @@ export const loginfacebook = (auth, facebookProvider) => {
   console.log(facebookProvider);
   return new Promise((resolve, reject) => {
     signInWithPopup(auth, facebookProvider)
-    .then((result1) => {
-      const user1 = result1.user;
-      const credential = facebookProvider.credentialFromResult(result);
+    .then((res) => {
+      console.log(res)
+      const user = res.user;
+      const credential = FacebookAuthProvider.credentialFromResult(res);
       const accessToken = credential.accessToken;
     }).catch((error) => reject(error));
   });
