@@ -33,6 +33,14 @@
          </ul>
 
          <ul> 
+          <div class="login-box">
+            <a href="#" class="social-button" id="facebookCustomLogin"> <span>Connect with facebook</span></a>
+          </div>
+         </ul>
+
+
+
+         <ul> 
             <li onclick="kakaoLogin();">
               <div class="login-box1"> 
                 <a href="javascript:void(0)" class="social-button" id = "kkCustomLogin">
@@ -103,7 +111,27 @@
     
     })
     
+    
     </script>
+
+<script type = "module">
+  import {app} from "./javascripts/firebase.js";
+  import AuthLogic from "./javascripts/authLogic.js";
+  import {loginfacebook} from "./javascripts/authLogic.js";
+  import {getAuth} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+
+  const auth2 = getAuth(app);
+  const authlogic2 = new AuthLogic(); // 로그인 처리를 하는 모듈의 클래스를 생성'
+  const facebooklogin = document.querySelector('#facebookCustomLogin')
+  facebooklogin.addEventListener('click', async(event)=>{
+    event.preventDefault(); // 캡쳐링을 막아준다.
+    const result = await loginfacebook(auth2, authlogic2.facebookProvider)
+    window.location.href = "/";
+
+  })
+</script>
+
 
 
 

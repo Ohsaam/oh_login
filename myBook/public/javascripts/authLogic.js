@@ -2,6 +2,7 @@ import { getAuth,
   signInWithPopup ,
   GithubAuthProvider,
    GoogleAuthProvider, 
+   FacebookAuthProvider
    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"
 
 
@@ -11,6 +12,7 @@ class AuthLogic{
     this.auth = getAuth();
     this.gitProvider = new GithubAuthProvider();
     this.googleProvider = new GoogleAuthProvider();
+    this.facebookProvider = new FacebookAuthProvider();
   }
 
   //클래스 안에서 function 사용 x 에로우 펑션 사용
@@ -24,6 +26,10 @@ class AuthLogic{
   
   getGitProvider = () =>{
     return this.googleProvider;
+  }
+
+  getfacebookProvider = ()=>{
+    return this.facebookProvider;
   }
 }
 // defalut가 있을 떈 import {} << 괄호를 붙이면 안 된다.
@@ -56,6 +62,23 @@ export const logOut = (auth) => {
     resolve();
   })
 }
+
+
+
+// 해당 자리 페이스북 위치
+
+export const loginfacebook = (auth, facebookProvider) => {
+  console.log('loginfacebook호출 성공');
+  console.log(facebookProvider);
+  return new Promise((resolve, reject) => {
+    signInWithPopup(auth, facebookProvider)
+    .then((result1) => {
+      const user1 = result1.user;
+      const credential = facebookProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+    }).catch((error) => reject(error));
+  });
+};
 
 
 
